@@ -1,0 +1,59 @@
+<div class="text-gray-600 flex flex-col relative gap-5">
+    <button mat-dialog-close [disabled]="createForm.disabled" class="flex items-center justify-center bg-white absolute -top-3 -right-3 z-10 h-8 w-8 rounded-full border border-solid border-gray-500 ">
+        <mat-icon class="text-gray-500">close</mat-icon>
+    </button>
+
+    <div class="w-full">
+        <h1 class="text-2xl text-gray-900 font-bold">Manage new {{data.type}} item</h1>
+        <h4 class="text-lg text-gray-500">You are adding a new {{data.type}} item to this recipe.</h4>
+    </div>
+
+    <form [formGroup]="createForm" (ngSubmit)="onSubmit()" class="w-full grid grid-cols-1 gap-4">
+        <!-- Select item -->
+        <mat-form-field appearance="outline">
+            <mat-label>Select one item</mat-label>
+            <input type="text"
+                matInput
+                placeholder="Select one item"
+                [formControl]="createForm.get('itemId')"
+                [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn.bind(this)">
+                <mat-option *ngFor="let option of filteredItems | async" [value]="option.itemId">
+                    {{option.name}}
+                </mat-option>
+            </mat-autocomplete>
+            <mat-error>Item is required</mat-error>
+        </mat-form-field>
+
+        <!-- Amount -->
+        <mat-form-field appearance="outline">
+            <mat-label>Amount of items</mat-label>
+            <input matInput formControlName="amount" placeholder="Amount of items" type="number" />
+            <mat-error>The amount is required</mat-error>
+        </mat-form-field>
+
+        <!-- Must consume -->
+        <mat-checkbox formControlName="consume" color="warn" *ngIf="data.type === 'required'">Must consume the item?</mat-checkbox>
+
+        <div class="flex justify-end gap-4">
+            <button
+                mat-dialog-close
+                class="rounded-full bg-gray-300 text-gray-800 h-10 flex items-center px-4"
+                [disabled]="createForm.disabled"
+                type="button"
+            >Cancel</button>
+
+            <button
+                class="rounded-full bg-primary-500 text-white h-10 flex items-center px-4"
+                [disabled]="createForm.disabled"
+            >
+                <mat-progress-spinner
+                    *ngIf="createForm.disabled"
+                    [diameter]="24"
+                    [mode]="'indeterminate'"></mat-progress-spinner>
+
+                <span *ngIf="!createForm.disabled">Add new {{data.type}} item</span>
+            </button>
+        </div>
+    </form>
+</div>

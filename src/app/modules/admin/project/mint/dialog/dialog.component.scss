@@ -1,0 +1,17 @@
+.mint_dialog mat-label {
+    pointer-events: all;
+}
+
+.dialog_snackbar,
+.dialog_snackbar-error {
+    .mat-simple-snackbar .mat-simple-snackbar-action {
+        background: rgba(#ffffff, .2) !important;
+        border-radius: 0.5rem;
+        color: #ffffff !important;
+    }
+}
+
+.dialog_snackbar-error.mat-snack-bar-container {
+    background: rgba(220, 38, 38) !important;
+    color: #ffffff !important;
+}

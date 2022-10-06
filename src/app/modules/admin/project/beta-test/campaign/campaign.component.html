@@ -1,0 +1,48 @@
+<div class="flex flex-col flex-auto w-full p-6 sm:p-10">
+    <!-- Page Header -->
+    <div class="flex flex-col gap-y-4 lg:justify-between lg:flex-row lg:items-center w-full">
+        <div class="text-left text-2xl font-extrabold sm:text-5xl">
+            <h1 class="text-white">{{title}}</h1>
+            <h5 class="text-gray-400 text-lg font-normal">{{subtitle}}</h5>
+        </div>
+    </div>
+
+    <!-- Page Menu -->
+    <nav class="mt-10" mat-tab-nav-bar [tabPanel]="tabPanel">
+        <a mat-tab-link
+            class="relative text-gray-300"
+            *ngFor="let link of campaignMenu"
+            [routerLink]="link.path"
+            routerLinkActive #rla="routerLinkActive"
+            [active]="rla.isActive"
+        >
+            <mat-icon class="mr-2 text-gray-300">{{link.icon}}</mat-icon>
+            {{link.name}}
+
+            <span
+                *ngIf="link.path === 'reports' && campaign && campaign.reports.length"
+                class="absolute top-2 right-2 w-6 h-6 rounded-full bg-pink-700 text-white flex items-center justify-center text-sm"
+            >
+                {{campaign.reports.length}}
+            </span>
+        </a>
+    </nav>
+
+    <!-- Page Content -->
+    <mat-tab-nav-panel #tabPanel class="mt-5">
+        <ready-loader *ngIf="!isLoaded"></ready-loader>
+
+        <ng-container *ngIf="isLoaded">
+            <!-- Not allowed -->
+            <div class="w-full p-6 sm:p-10" *ngIf="!campaign">
+                <fuse-card class="w-full max-w-md mx-auto flex flex-col gap-5 p-6 sm:p-10">
+                    <h3 class="text-red-700 text-3xl">Access denied</h3>
+                    <p class="text-gray-500 text-lg">You don't have permission to access this campaign.</p>
+                </fuse-card>
+            </div>
+
+            <!-- Allowed -->
+            <router-outlet *ngIf="campaign"></router-outlet>
+        </ng-container>
+    </mat-tab-nav-panel>
+</div>

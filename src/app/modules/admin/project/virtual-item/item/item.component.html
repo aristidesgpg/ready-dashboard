@@ -1,0 +1,150 @@
+<div class="flex flex-col w-full max-w-5xl mx-auto p-6 sm:p-10">
+    <!-- Head Title -->
+    <div class="flex flex-col w-full mt-4 lg:justify-between lg:flex-row lg:items-start">
+        <div class="text-2xl sm:text-3xl font-extrabold">
+            <h1 class="text-left text-white">Manage item</h1>
+            <h5 class="text-left text-gray-400 text-lg font-normal">Manage one existing item!</h5>
+        </div>
+    </div>
+
+    <!-- Loader -->
+    <ready-loader *ngIf="!isLoaded"></ready-loader>
+
+    <!-- Form -->
+    <div class="w-full" *ngIf="isLoaded">
+        <!-- Alert -->
+        <div #alertBox>
+            <fuse-alert
+                class="mt-8"
+                *ngIf="showAlert"
+                [appearance]="'outline'"
+                [showIcon]="false"
+                [type]="alert.type"
+                [@shake]="alert.type === 'error'">
+                {{alert.message}}
+            </fuse-alert>
+        </div>
+
+        <!-- Card -->
+        <fuse-card class="flex flex-col mt-8 p-6 w-full developer-sign-up">
+            <form class="grid grid-cols-2 gap-6" [formGroup]="itemForm">
+                <!-- Upload Image -->
+                <div *ngIf="itemForm.get('itemId').value" class="col-span-2 border-b-2 border-gray-200 pb-6">
+                    <!-- Uploader -->
+                    <ready-uploader
+                        #uploader
+                        class="grid grid-flow-col w-full item_uploader"
+                        [url]="uploadUrl"
+                        [file]="this.item.imageLink"
+                        [fileName]="itemForm.get('image').value"
+                        (onUploadEvent)="onUploadEvent($event)"
+                        (onRemoveEvent)="onRemoveEvent($event)"
+                    >
+                    </ready-uploader>
+                </div>
+
+                <!-- Is available for sale? -->
+                <div class="col-span-2">
+                    <h4 class="text-xl">Control if the item is available for sales.</h4>
+                    <mat-checkbox formControlName="isAvailableForSale">Is available for sale?</mat-checkbox>
+                </div>
+
+                <!-- Name -->
+                <mat-form-field appearance="fill" class="col-span-2">
+                    <mat-label>Name</mat-label>
+                    <input
+                        required
+                        matInput
+                        placeholder="Name"
+                        [formControlName]="'name'"
+                    />
+                    <mat-error *ngIf="itemForm.get('name').hasError('required')">Name is required</mat-error>
+                </mat-form-field>
+
+                <!-- Description -->
+                <mat-form-field appearance="fill" class="col-span-2">
+                    <mat-label>Description</mat-label>
+                    <textarea
+                        matInput
+                        [formControlName]="'description'"
+                    ></textarea>
+                </mat-form-field>
+
+                <!-- Category -->
+                <mat-form-field appearance="fill">
+                    <mat-label>Category</mat-label>
+                    <input
+                        matInput
+                        placeholder="Category"
+                        [formControlName]="'category'"
+                    />
+                </mat-form-field>
+
+                <!-- Subcategory -->
+                <mat-form-field appearance="fill">
+                    <mat-label>Subcategory</mat-label>
+                    <input
+                        matInput
+                        placeholder="Subcategory"
+                        [formControlName]="'subCategory'"
+                    />
+                </mat-form-field>
+
+                <!-- Price -->
+                <mat-form-field appearance="fill">
+                    <mat-label>Price</mat-label>
+                    <input
+                        required
+                        matInput
+                        placeholder="Price"
+                        [type]="'number'"
+                        [formControlName]="'price'"
+                    />
+                    <mat-error *ngIf="itemForm.get('price').hasError('required')">Price is required</mat-error>
+                </mat-form-field>
+
+                <!-- Currency -->
+                <mat-form-field appearance="fill">
+                    <mat-label>Currency</mat-label>
+                    <input
+                        matInput
+                        placeholder="Currency"
+                        [formControlName]="'currency'"
+                    />
+                </mat-form-field>
+
+                <!-- Network -->
+                <mat-form-field appearance="fill">
+                    <mat-label>Network</mat-label>
+                    <input
+                        matInput
+                        placeholder="Network"
+                        [formControlName]="'network'"
+                    />
+                </mat-form-field>
+
+                <!-- Submit button -->
+                <div class="col-span-2 mt-6">
+                    <button
+                        class="fuse-mat-button-large px-20"
+                        mat-flat-button
+                        [color]="'primary'"
+                        [disabled]="itemForm.disabled"
+                        (click)="onSubmit()">
+                        <span *ngIf="!itemForm.disabled">
+                            {{btnLabel}}
+                        </span>
+                        <mat-progress-spinner
+                            *ngIf="itemForm.disabled"
+                            [diameter]="24"
+                            [mode]="'indeterminate'"></mat-progress-spinner>
+                    </button>
+                </div>
+            </form>
+        </fuse-card>
+
+        <div class="mt-8" *ngIf="method === 'put'">
+            <button mat-stroked-button [color]="'warn'" (click)="removeItem()">Remove item</button>
+        </div>
+    </div>
+</div>

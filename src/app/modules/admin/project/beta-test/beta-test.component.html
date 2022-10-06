@@ -1,0 +1,50 @@
+<div class="flex flex-col w-full p-6 sm:p-10">
+    <!-- Page Header -->
+    <div class="text-left text-2xl font-extrabold sm:text-5xl">
+        <h1 class="text-white">Beta Testing</h1>
+        <h5 class="text-gray-400 text-lg font-normal">Developers on the network will make requests for players to test various parts of their game. <br /> Completing requests will earn you Aura - click any of the options below to learn more.</h5>
+    </div>
+
+    <!-- Loading data -->
+    <ready-loader *ngIf="!isLoaded"></ready-loader>
+
+    <!-- Display Games -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 w-full max-w-screen-lg mt-10 mx-auto">
+        <fuse-card class="flex flex-col text-lg" *ngFor="let item of campaigns; let idx = index">
+            <div class="text-center items-center justify-center flex overflow-hidden flex-shrink-0 h-28 bg-gradient-to-r from-primary-400 to-primary-800 relative">
+                <h2 class="text-white text-3xl font-extrabold relative z-20">
+                    {{item.gameId}}
+                    <br />
+                    <small class="text-md" *ngIf="item.participantLimit > 0">
+                        {{item.participantCount}} / {{item.participantLimit}}
+                        participants
+                    </small>
+
+                    <small class="text-md" *ngIf="item.participantLimit === 0">
+                        Unlimited participants
+                    </small>
+                </h2>
+
+                <img src="assets/images/ui/beta-invite-testers.png" class="w-full h-full absolute inset-0 z-10 object-contain" />
+
+                <button mat-icon-button class="absolute top-2 right-2 z-20" routerLink="{{item.id}}">
+                    <mat-icon class="text-white">more_vert</mat-icon>
+                </button>
+            </div>
+
+            <div class="f-hull flex flex-col p-6 gap-4 text-gray-400">
+                <p class="text-xl font-bold text-gray-600 text-center">
+                    {{item.startDate | date}} - {{item.endDate | date}}
+                </p>
+
+                <p class="text-xl font-bold text-gray-600" *ngIf="item.androidTestLink">
+                    Aandroid: {{item.androidTestLink}}
+                </p>
+
+                <p class="text-xl font-bold text-gray-600" *ngIf="item.iosTestLink">
+                    iOS: {{item.iosTestLink}}
+                </p>
+            </div>
+        </fuse-card>
+    </div>
+</div>

@@ -1,0 +1,105 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+    <!-- Header -->
+    <div class="flex flex-col bg-card">
+
+        <!-- User info -->
+        <div class="flex flex-col flex-0 lg:flex-row items-center max-w-5xl w-full mx-auto py-4 px-8 lg:h-40">
+
+            <!-- Avatar -->
+            <div class="rounded-full relative">
+                <img
+                    class="w-32 h-32 rounded-full ring-4 ring-bg-card"
+                    [src]="selectedFileAsUrl ? selectedFileAsUrl : userProfileData.photoURL"
+                    alt="User avatar">
+                <label
+                    *ngIf="isFormShown"
+                    class="cursor-pointer absolute top-1/4 left-1/4 w-1/2 h-1/2 bg-gray-300 hover:bg-gray-100 hover:bg-opacity-70 bg-opacity-70 flex justify-center items-center rounded-full"
+                >
+                    <input type="file" (change)="onFileChanged($event)">
+                    <mat-icon>camera_alt</mat-icon>
+                </label>
+            </div>
+
+            <!-- Details -->
+            <div class="max-w-xs w-full">
+                <div 
+                    *ngIf="!isFormShown"
+                    class="flex flex-col items-center lg:items-start mt-4 lg:mt-0 lg:ml-8"
+                >
+                    <div class="text-lg font-bold leading-none">{{ userProfileData?.displayName }}</div>
+                    <div class="text-secondary">{{ userProfileData?.email }}</div>
+                </div>
+
+                <div 
+                    *ngIf="isFormShown"
+                    class="w-full flex flex-col items-center lg:items-start lg:mt-0 lg:ml-8"
+                >
+                    <form
+                        class="w-full mt-8"
+                        [formGroup]="profileForm"
+                    >
+                        <!-- Name field -->
+                        <mat-form-field class="w-full">
+                            <mat-label>Full name</mat-label>
+                            <input
+                                id="name"
+                                matInput
+                                [formControlName]="'displayName'">
+                        </mat-form-field>
+                    </form>
+                </div>
+            </div>
+
+            <div class="flex items-center mt-2 mb-4 lg:m-0 lg:ml-auto space-x-6">
+                <button
+                    *ngIf="isFormShown"
+                    mat-flat-button
+                    [color]="'primary'"
+                    [disabled]="profileForm.disabled"
+                    class="px-6 cursor-pointer"
+                    (click)="cancelUpdating()"
+                >
+                    <span *ngIf="!profileForm.disabled">Cancel</span>
+                    <mat-progress-spinner
+                            *ngIf="profileForm.disabled"
+                            [diameter]="24"
+                            [mode]="'indeterminate'"></mat-progress-spinner>
+                </button>
+
+                <button
+                    *ngIf="isFormShown"
+                    mat-flat-button
+                    [color]="'primary'"
+                    [disabled]="profileForm.disabled"
+                    class="px-6 cursor-pointer"
+                    (click)="updateProfile()"
+                >
+                    <span *ngIf="!profileForm.disabled">Update</span>
+                    <mat-progress-spinner
+                            *ngIf="profileForm.disabled"
+                            [diameter]="24"
+                            [mode]="'indeterminate'"></mat-progress-spinner>
+                </button>
+
+                <button
+                    *ngIf="!isFormShown"
+                    class="px-6 cursor-pointer"
+                    mat-flat-button
+                    [color]="'primary'"
+                    (click)="editProfile()"
+                >
+                    <div class="flex items-center justify-center gap-x-2">
+                        <mat-icon
+                            class="icon-size-5"
+                            [svgIcon]="'mat_solid:edit'">
+                        </mat-icon>
+                        <span class="ml-2">Edit</span>
+                    </div>
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+</div>

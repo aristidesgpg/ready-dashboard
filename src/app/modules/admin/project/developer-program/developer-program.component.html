@@ -1,0 +1,349 @@
+<div class="flex flex-col flex-auto min-w-0 max-w-5xl w-full mx-auto">
+    <div class="flex flex-col items-center p-6 sm:p-10">
+        <div class="flex flex-col lg:justify-between lg:flex-row lg:items-start w-full max-w-7xl">
+            <div class="mt-2 text-2xl sm:text-3xl font-extrabold">
+                <h1 class="text-left text-white">
+                    Beta Developer Program
+                </h1>
+            </div>
+        </div>
+
+        <div class="w-full">
+            <!-- Alert -->
+            <div #alertBox>
+                <fuse-alert
+                    class="mt-8"
+                    *ngIf="showAlert"
+                    [appearance]="'outline'"
+                    [showIcon]="false"
+                    [type]="alert.type"
+                    [@shake]="alert.type === 'error'">
+                    {{alert.message}}
+                </fuse-alert>
+            </div>
+
+            <!-- Card -->
+            <fuse-card class="flex flex-col mt-8 p-6 w-full developer-sign-up">
+                <mat-stepper
+                    orientation="vertical"
+                    [linear]="false"
+                    #stepper
+                >
+                    <mat-step [stepControl]="formBasic">
+                        <form class="grid grid-cols-2 gap-6" [formGroup]="formBasic">
+                            <ng-template matStepLabel>Basic information</ng-template>
+
+                            <!-- First Name -->
+                            <mat-form-field appearance="fill">
+                                <mat-label class="font-bold">First Name</mat-label>
+                                <input
+                                    required
+                                    matInput
+                                    placeholder="First name"
+                                    [formControlName]="'first_name'"
+                                />
+                                <mat-error *ngIf="formBasic.get('first_name').hasError('required')">
+                                    First name is required
+                                </mat-error>
+                            </mat-form-field>
+
+                            <!-- Last Name -->
+                            <mat-form-field appearance="fill">
+                                <mat-label class="font-bold">Last Name</mat-label>
+                                <input
+                                    required
+                                    matInput
+                                    placeholder="Last Name"
+                                    [formControlName]="'last_name'"
+                                />
+                                <mat-error *ngIf="formBasic.get('last_name').hasError('required')">
+                                    First name is required
+                                </mat-error>
+                            </mat-form-field>
+
+                            <!-- Discord Username -->
+                            <mat-form-field class="col-span-2">
+                                <mat-label class="font-bold">Discord Username</mat-label>
+                                <input
+                                    matInput
+                                    placeholder="Discord Username"
+                                    [formControlName]="'discord_username'">
+                            </mat-form-field>
+
+                            <div>
+                                <button mat-button matStepperNext>Next</button>
+                            </div>
+                        </form>
+                    </mat-step>
+
+                    <mat-step [stepControl]="formDemo">
+                        <form class="grid grid-cols-2 gap-6" [formGroup]="formDemo">
+                            <ng-template matStepLabel>Demographic information</ng-template>
+
+                            <!-- Birth date -->
+                            <mat-form-field appearance="fill" class="col-span-2">
+                                <mat-label class="font-bold">Birth date</mat-label>
+
+                                <input matInput [matDatepicker]="bdPicker" formControlName="birth_date" />
+                                <mat-hint>MM/DD/YYYY</mat-hint>
+                                <mat-datepicker-toggle matSuffix [for]="bdPicker"></mat-datepicker-toggle>
+                                <mat-datepicker #bdPicker></mat-datepicker>
+                            </mat-form-field>
+
+                            <!-- Gender -->
+                            <div class="col-span-2">
+                                <mat-label class="text-lg font-bold">Gender</mat-label>
+                                <mat-radio-group
+                                    #genderGroup
+                                    class="grid grid-cols-1 gap-2"
+                                    formControlName="gender"
+                                    (change)="setGenderValue('radio')"
+                                >
+                                    <mat-radio-button value="male">Male</mat-radio-button>
+                                    <mat-radio-button value="female">Female</mat-radio-button>
+                                    <mat-radio-button value="nonbi">Non-bi</mat-radio-button>
+                                </mat-radio-group>
+
+                                <mat-form-field appearance="standard">
+                                    <input #genderInput matInput formControlName="gender" placeholder="Other" (keypress)="setGenderValue('input')">
+                                    <mat-hint>Specify manually</mat-hint>
+                                </mat-form-field>
+
+                                <mat-error *ngIf="formDemo.get('gender').hasError('required')">
+                                    Gender is required
+                                </mat-error>
+                            </div>
+
+                            <!-- Country -->
+                            <mat-form-field appearance="fill">
+                                <mat-label class="font-bold">Country</mat-label>
+                                <input
+                                    required
+                                    matInput
+                                    placeholder="Country"
+                                    formControlName="country">
+                                <mat-error *ngIf="formDemo.get('country').hasError('required')">
+                                    Country is required
+                                </mat-error>
+                            </mat-form-field>
+
+                            <!-- House Income -->
+                            <mat-form-field appearance="fill">
+                                <mat-label class="font-bold">House Income</mat-label>
+                                <input
+                                    matInput
+                                    placeholder="House Income"
+                                    formControlName="house_income">
+                            </mat-form-field>
+
+                            <!-- Children -->
+                            <div class="col-span-2 grid grid-cols-1 grid-gap-2">
+                                <mat-label class="text-lg font-bold">Children</mat-label>
+
+                                <mat-radio-group class="grid grid-cols-4 grid-gap-2" formControlName="children">
+                                    <mat-radio-button value="yes">Yes</mat-radio-button>
+                                    <mat-radio-button value="no">No</mat-radio-button>
+                                </mat-radio-group>
+
+                                <mat-error *ngIf="formDemo.get('children').hasError('required')">
+                                    Children is required
+                                </mat-error>
+                            </div>
+
+                            <!-- Employment status -->
+                            <mat-form-field appearance="fill">
+                                <mat-label class="font-bold">Employment status</mat-label>
+                                <input
+                                    matInput
+                                    placeholder="Employment status"
+                                    formControlName="employment">
+                            </mat-form-field>
+
+                            <!-- Occupation -->
+                            <mat-form-field appearance="fill">
+                                <mat-label class="font-bold">Occupation</mat-label>
+                                <input
+                                    matInput
+                                    placeholder="Occupation"
+                                    formControlName="occupation">
+                            </mat-form-field>
+
+                            <!-- Language -->
+                            <div class="col-span-2" formArrayName="language">
+                                <mat-label class="text-lg font-bold">Language</mat-label>
+
+                                <div class="grid grid-cols-1 grid-gap-4" *ngFor="let item of config.language; let i = index" [formGroupName]="i">
+                                    <mat-checkbox [formControlName]="item.name">{{item.label}}</mat-checkbox>
+                                </div>
+
+                                <mat-error *ngIf="formDemo.get('language').hasError('required')">
+                                    Select at least one language
+                                </mat-error>
+                            </div>
+
+                            <div>
+                                <button mat-button matStepperPrevious>Previous</button>
+                                <button mat-button matStepperNext>Next</button>
+                            </div>
+                        </form>
+                    </mat-step>
+
+                    <mat-step [stepControl]="formGame">
+                        <form class="grid grid-cols-2 gap-6" [formGroup]="formGame">
+                            <ng-template matStepLabel>Gaming information</ng-template>
+
+                            <!-- Gaming Genres -->
+                            <div class="col-span-2 grid grid-cols-1 grid-gap-2" formArrayName="game_genre">
+                                <mat-label class="text-lg font-bold">Gaming genres</mat-label>
+
+                                <div class="grid grid-cols-2 grid-gap-4">
+                                    <ng-container *ngFor="let item of config.game_genre; let i = index" [formGroupName]="i">
+                                        <mat-checkbox class="" [formControlName]="item.name">{{item.label}}</mat-checkbox>
+                                    </ng-container>
+                                </div>
+
+                                <mat-error *ngIf="formGame.get('game_genre').hasError('required')">
+                                    Select at least one game genre
+                                </mat-error>
+                            </div>
+
+                            <!-- Devices -->
+                            <div class="col-span-2 grid grid-cols-2 grid-gap-2" formArrayName="devices">
+                                <mat-label class="text-lg font-bold col-span-2">Devices</mat-label>
+
+                                <div>
+                                    <mat-label class="flex mt-2">Computer</mat-label>
+                                    <div class="grid grid-cols-1 grid-gap-2" *ngFor="let item of config.devices; let i = index" [formGroupName]="i">
+                                        <mat-checkbox *ngIf="item.group === 'computer'" [formControlName]="item.name">{{item.label}}</mat-checkbox>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <mat-label class="flex mt-2">Smartphone</mat-label>
+                                    <div class="grid grid-cols-1 grid-gap-2" *ngFor="let item of config.devices; let i = index" [formGroupName]="i">
+                                        <mat-checkbox *ngIf="item.group === 'smartphone'" [formControlName]="item.name">{{item.label}}</mat-checkbox>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <mat-label class="flex mt-2">Tablet</mat-label>
+                                    <div class="grid grid-cols-1 grid-gap-2" *ngFor="let item of config.devices; let i = index" [formGroupName]="i">
+                                        <mat-checkbox *ngIf="item.group === 'tablet'" [formControlName]="item.name">{{item.label}}</mat-checkbox>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <mat-label class="flex mt-2">Other</mat-label>
+                                    <div class="grid grid-cols-1 grid-gap-2" *ngFor="let item of config.devices; let i = index" [formGroupName]="i">
+                                        <mat-checkbox *ngIf="item.group === 'other'" [formControlName]="item.name">{{item.label}}</mat-checkbox>
+                                    </div>
+                                </div>
+
+                                <mat-error class="col-span-2" *ngIf="formGame.get('devices').hasError('required')">
+                                    Select at least one device
+                                </mat-error>
+                            </div>
+
+                            <!-- Software version -->
+                            <mat-form-field class="col-span-2" appearance="fill">
+                                <mat-label class="font-bold">Software version</mat-label>
+                                <textarea
+                                    required
+                                    matInput
+                                    placeholder="Software version"
+                                    formControlName="software_version"
+                                ></textarea>
+                                <mat-hint>Eg: iOS 14/Android 12</mat-hint>
+                                <mat-error *ngIf="formGame.get('software_version').hasError('required')">
+                                    Your software version is required
+                                </mat-error>
+                            </mat-form-field>
+
+                            <!-- Gaming Expertise -->
+                            <div class="col-span-2">
+                                <mat-radio-group
+                                    required
+                                    class="grid grid-cols-1 gap-2"
+                                    formControlName="game_expertise"
+                                >
+                                    <mat-label class="text-lg font-bold">Gaming Expertise</mat-label>
+                                    <mat-radio-button value="beginner">Beginner</mat-radio-button>
+                                    <mat-radio-button value="average">Average</mat-radio-button>
+                                    <mat-radio-button value="advanced">Advanced</mat-radio-button>
+                                    <mat-hint>How do you see yourself as a gaming expert?</mat-hint>
+                                </mat-radio-group>
+                                <mat-error *ngIf="formGame.get('game_expertise').hasError('required')">
+                                    Your gaming expertise is required
+                                </mat-error>
+                            </div>
+
+                            <!-- Web Browser -->
+                            <div class="col-span-2 grid grid-cols-1 grid-gap-2" formArrayName="web_browser">
+                                <mat-label class="text-lg font-bold">Web Browser</mat-label>
+
+                                <ng-container *ngFor="let item of config.web_browser; let i = index" [formGroupName]="i">
+                                    <mat-checkbox [formControlName]="item.name">{{item.label}}</mat-checkbox>
+                                </ng-container>
+                            </div>
+
+                            <!-- Social Network -->
+                            <div class="col-span-2 grid grid-cols-1 grid-gap-2" formArrayName="social_network">
+                                <mat-label class="text-lg font-bold">Social Network</mat-label>
+
+                                <mat-form-field appearance="fill" *ngFor="let item of config.social_network; let i = index" [formGroupName]="i">
+                                    <mat-label>{{item.label}}</mat-label>
+                                    <input
+                                        matInput
+                                        placeholder="{{item.label}}"
+                                        [formControlName]="item.name" />
+                                </mat-form-field>
+                            </div>
+
+                            <!-- What is your favorite game? -->
+                            <mat-form-field class="col-span-2" appearance="fill">
+                                <mat-label class="font-bold">What is your favorite game?</mat-label>
+                                <textarea
+                                    required
+                                    matInput
+                                    placeholder="What is your favorite game?"
+                                    formControlName="game_favorite"
+                                ></textarea>
+                                <mat-error *ngIf="formGame.get('game_favorite').hasError('required')">
+                                    Your favorite game is required
+                                </mat-error>
+                            </mat-form-field>
+
+                            <!-- Why do you love gaming? -->
+                            <mat-form-field class="col-span-2" appearance="fill">
+                                <mat-label class="font-bold">Why do you love gaming?</mat-label>
+                                <textarea
+                                    matInput
+                                    placeholder="Why do you love gaming?"
+                                    formControlName="game_love"
+                                ></textarea>
+                            </mat-form-field>
+
+                            <div>
+                                <button mat-button matStepperPrevious>Previous</button>
+                                <button
+                                    class="fuse-mat-button-large w-full max-w-xs mt-6"
+                                    mat-flat-button
+                                    [color]="'primary'"
+                                    [disabled]="formBasic.disabled"
+                                    (click)="onSubmit()">
+                                    <span *ngIf="!formBasic.disabled">
+                                        Submit
+                                    </span>
+                                    <mat-progress-spinner
+                                        *ngIf="formBasic.disabled"
+                                        [diameter]="24"
+                                        [mode]="'indeterminate'"></mat-progress-spinner>
+                                </button>
+                            </div>
+                        </form>
+                    </mat-step>
+                </mat-stepper>
+            </fuse-card>
+        </div>
+    </div>
+</div>

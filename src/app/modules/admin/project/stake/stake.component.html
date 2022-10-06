@@ -1,0 +1,70 @@
+<div class="flex flex-col flex-auto min-w-0" prose prose-sm>
+    <div class="mt-3 mb-3 sm:text-2xl text-center tracking-tight">
+        <div *ngIf="!isConnected; then connectWalletBlock else mintBlock"></div>
+        <ng-template #connectWalletBlock>
+            <button
+                mat-raised-button
+                (click)="connectWallet()">
+                Connect Wallet
+            </button>
+        </ng-template>
+        <ng-template #mintBlock>
+            <button
+                mat-raised-button
+                (click)="stake()">
+                stake
+            </button>
+            <button
+                mat-raised-button
+                (click)="unstake()">
+                unstake
+            </button>
+            <button
+                mat-raised-button
+                (click)="getStakedIds()">
+                getStakedIds
+            </button>
+        </ng-template>
+        <div >
+            {{web3obj?.account}}
+        </div>
+        <div>
+            {{stakedIds.join()}}
+        </div>
+    </div>
+    <div class="flex flex-row items-center justify-center">
+        <form
+            class="p-4 bg-card overflow-hidden"
+            [formGroup]="verticalStepperForm"
+        >
+            <mat-form-field class="flex-auto example-container">
+                <mat-select [formControlName]="'tokenAddress'" [(value)]="tokens[0].value">
+                    <mat-option 
+                        *ngFor="let token of tokens" 
+                        [value]="token.value" 
+                        placeholder="Select Token"
+                    >
+                        {{token.name}}
+                      </mat-option>
+                  </mat-select>
+            </mat-form-field>
+            <mat-form-field class="flex-auto example-container">
+                <input
+                    matInput
+                    type="number"
+                    [formControlName]="'tokenId'"
+                    placeholder="Input token Id"
+                >
+            </mat-form-field>
+            <mat-form-field class="flex-auto example-container">
+                <input
+                    matInput
+                    type="number"
+                    [formControlName]="'amount'"
+                    placeholder="Input token amount"
+                >
+            </mat-form-field>
+        </form>
+
+    </div>
+</div>

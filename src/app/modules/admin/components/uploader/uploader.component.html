@@ -1,0 +1,69 @@
+<!-- Controller -->
+<div
+    class="h-full w-full relative border-2 border-primary"
+    [class.border-solid]="uploaderOnHover || filePreview || file"
+    [class.border-dashed]="!uploaderOnHover && !filePreview && !file"
+>
+    <!-- Image Preview -->
+    <ng-container *ngIf="filePreview || file">
+        <button
+            mat-icon-button
+            type="button"
+            color="warn"
+            class="absolute top-2 right-2 h-8 z-20"
+            (click)="onRemove()"
+        >
+            <mat-icon>delete_outline</mat-icon>
+        </button>
+
+        <figure class="w-full h-full border-solid p-2">
+            <img [src]="filePreview || file" class="w-full h-full object-contain" />
+        </figure>
+    </ng-container>
+
+    <!-- Uploader -->
+    <label
+        *ngIf="!filePreview && !file"
+        ngFileDrop
+        class="uploader hover:border-solid cursor-pointer h-full w-full flex flex-col items-center justify-center relative z-10 text-md"
+        for="uid-{{uId}}"
+        type="button"
+        [uploadInput]="uploader"
+        (uploadOutput)="onUploadOutput($event)"
+    >
+        <!-- Uploader -->
+        <ng-container *ngIf="uploaderProgress">
+            <mat-spinner [diameter]="30"></mat-spinner>
+            <small>Uploading...</small>
+        </ng-container>
+
+        <ng-container *ngIf="!uploaderProgress">
+            <mat-icon class="text-primary h-12 w-12" [svgIcon]="'add_photo_alternate'"></mat-icon>
+            <small>Click here or drag an image to upload</small>
+        </ng-container>
+
+        <!-- Uploader input - Hidden -->
+        <input type="file"
+            ngFileSelect
+            id="uid-{{uId}}"
+            class="hidden"
+            type="file"
+            (uploadOutput)="onUploadOutput($event)"
+            [uploadInput]="uploader"
+        />
+    </label>
+
+    <!-- Uploader Progress -->
+    <mat-progress-bar
+        mode="determinate"
+        *ngIf="uploaderProgress"
+        [value]="(uploaderProgress | async)"
+    >
+    </mat-progress-bar>
+</div>
+
+<!-- Description -->
+<div class="flex-shrink-0 mt-2 w-full">
+    <h4 class="font-medium">Image, Vídeo, Áudio or 3D Model *</h4>
+    <small>File types supported: JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, GLTF. Max size: 100 MB</small>
+</div>

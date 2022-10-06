@@ -1,0 +1,114 @@
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, CanLoad, Route, Router, RouterStateSnapshot, UrlSegment, UrlTree } from '@angular/router';
+import { Observable, of, switchMap, tap } from 'rxjs';
+import { AuthService } from 'app/core/auth/auth.service';
+import { FuseSplashScreenService } from '@fuse/services/splash-screen';
+
+@Injectable({
+    providedIn: 'root'
+})
+export class AuthGuard implements CanActivate, CanActivateChild, CanLoad
+{
+    isApprovedDeveloper: boolean;
+    /**
+     * Constructor
+     */
+    constructor(
+        private _authService: AuthService,
+        private _router: Router,
+        private _fuseSplashScreenService: FuseSplashScreenService
+    ) {
+        console.log('INIT AUTHGUARD')
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Can activate
+     *
+     * @param route
+     * @param state
+     */
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean
+    {
+        const redirectUrl = state.url === '/sign-out' ? '/' : state.url;
+        return this._check(redirectUrl);
+    }
+
+    /**
+     * Can activate child
+     *
+     * @param childRoute
+     * @param state
+     */
+    canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree
+    {
+        const redirectUrl = state.url === '/sign-out' ? '/' : state.url;
+        return this._check(redirectUrl);
+    }
+
+    /**
+     * Can load
+     *
+     * @param route
+     * @param segments
+     */
+    canLoad(route: Route, segments: UrlSegment[]): Observable<boolean> | Promise<boolean> | boolean
+    {
+        return this._check('/');
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Private methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Check the authenticated status
+     *
+     * @param redirectURL
+     * @private
+     */
+    private _check(redirectURL: string): Observable<boolean>
+    {
+        console.log('_check: ', redirectURL);
+
+
+        const isApprovedDeveloper = this._authService?.realMasterData?.isApprovedDeveloper;
+
+        // Check the authentication status
+        return this._authService.check()
+                   .pipe(
+                       switchMap((authenticated) => {
+                            // If the user is not authenticated...
+                            if (!authenticated) {
+                                this._fuseSplashScreenService.show();
+
+                                // Redirect to the sign-in page
+                                this._router.navigate(['sign-in'], {queryParams: {redirectURL}});
+
+                                // Prevent the access
+                                return of(false);
+                            }
+
+                            if (!isApprovedDeveloper && redirectURL.includes('project')) {
+                                const link = redirectURL.split('/').slice(-1)[0] === 'project' ? 'dashboard' : redirectURL.split('/').slice(-1)[0];
+                                this._router.navigate(['welcome/' + link]);
+
+                                return of(true);
+                            }
+
+                            this._authService.isRedirected = true;
+
+                            // setTimeout(() => {
+                            //     this._fuseSplashScreenService.hide();
+                            //     console.log('AuthGuard timetou - this._fuseSplashScreenService.hide()')
+                            // }, 1000);
+
+                            // Allow the access
+                            return of(true);
+                       })
+                   );
+    }
+}

@@ -1,0 +1,27 @@
+.item_card {
+    @apply
+    rounded-md
+    border border-white border-solid
+    bg-white bg-opacity-10
+    p-10
+    ;
+
+    backdrop-filter: blur(3px);
+}
+
+.item_box {
+    @apply p-2 h-20 items-center flex gap-2 text-white;
+
+    figure {
+        @apply border border-white border-solid rounded-md h-13 w-13 overflow-hidden relative;
+
+        img {
+            @apply relative z-10;
+        }
+    }
+}
+
+.item_consume {
+    @apply absolute z-20 w-full h-full;
+    background: linear-gradient(45deg, rgba(#dc2626, 1) 0%, rgba(#dc2626, 0) 50%);
+}

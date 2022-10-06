@@ -1,0 +1,58 @@
+<div class="grid grid-cols-1 md:grid-cols-2 gap-10 w-full max-w-7xl mx-auto">
+    <fuse-card class="flex flex-col text-lg">
+        <div class="text-center items-center justify-center flex overflow-hidden flex-shrink-0 h-52 bg-gradient-to-r from-primary-400 to-primary-800 relative">
+            <h2 class="text-white text-3xl font-extrabold relative z-20">
+                Invite Testers
+                <br />
+                <small class="text-md">{{campaign.participantCount}} / {{campaign.participantLimit}}</small>
+            </h2>
+
+            <img src="assets/images/ui/beta-invite-testers.png" class="w-full h-full absolute inset-0 z-10 object-contain" />
+        </div>
+
+        <div class="f-hull flex flex-col p-6 gap-4 text-gray-400">
+            <div class="flex items-center uppercase text-primary font-bold">
+                Reward:
+                <mat-icon class="w-5 h-5 mx-2" svgIcon="aura_color_icon"></mat-icon>
+                0.01 Aura
+            </div>
+
+            <p>Earn Aura for every new Beta Tester you invite! Just share the code or click the button below to share your referral link.</p>
+            <p class="text-xl font-bold text-gray-600">Your referral code: 12398</p>
+
+            <button
+                mat-flat-button
+                color="primary"
+                class="bg-gradient-to-r from-primary-400 to-primary-800 rounded-full text-white h-12 mt-auto hover:to-primary-400">
+                Send a Link
+            </button>
+        </div>
+    </fuse-card>
+
+    <fuse-card class="flex flex-col text-lg">
+        <div class="text-center items-center justify-center flex overflow-hidden flex-shrink-0 h-52 bg-gradient-to-r from-pink-400 to-pink-800 relative">
+            <h2 class="text-white text-3xl font-extrabold relative z-20">
+                Complete a Survey
+            </h2>
+
+            <img src="assets/images/ui/beta-complete-survey.png" class="w-full h-full absolute inset-0 z-10 object-contain" />
+        </div>
+
+        <div class="h-full flex flex-col p-6 gap-4 text-gray-400">
+            <div class="flex items-center uppercase text-primary font-bold">
+                Reward:
+                <mat-icon class="w-5 h-5 mx-2" svgIcon="aura_color_icon"></mat-icon>
+                0.01 Aura
+            </div>
+
+            <p>What types of games would you be a great tester for? <br />Fill out a short survey and earn Aura!</p>
+
+            <button
+                mat-flat-button
+                color="primary"
+                class="bg-gradient-to-r from-pink-400 to-pink-800 rounded-full text-white h-12 mt-auto hover:to-pink-400">
+                Start
+            </button>
+        </div>
+    </fuse-card>
+</div>

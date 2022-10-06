@@ -1,0 +1,49 @@
+<h1 mat-dialog-title>Invite a team member</h1>
+<div mat-dialog-content>
+   <div class="order-2 sm:order-1 ml-4 sm:ml-0">
+        <form class="w-full order-2 sm:order-1 ml-4 sm:ml-0"
+              [formGroup]="teamMemberForm">
+            <mat-form-field
+                    class=" fuse-mat-no-subscript w-full"
+                    [floatLabel]="'always'">
+                <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:user'"
+                        matPrefix></mat-icon>
+                <input  [formControlName]="'email'"
+                        [(ngModel)]="data.email"
+                        matInput
+                        [placeholder]="'Email address'">
+
+            </mat-form-field>
+            <mat-form-field class="w-full">
+                <mat-select
+                        [panelClass]="'w-72 min-w-72 max-w-72 h-auto max-h-none'"
+                        [value]=""
+                        [formControlName]="'role'"
+                        [(ngModel)]="data.role"
+                        disableOptionCentering
+                        #roleSelect="matSelect">
+                    <mat-select-trigger class="text-md">
+                        <span>Role:</span>
+                        <span class="ml-1 font-medium">{{roleSelect.value | titlecase}}</span>
+                    </mat-select-trigger>
+                    <ng-container *ngFor="let role of roles">
+                        <mat-option
+                                class="h-auto py-4 leading-none"
+                                [value]="role.value">
+                            <div class="font-medium">{{role.label}}</div>
+                            <div class="mt-1.5 text-sm whitespace-normal leading-normal text-secondary">{{role.description}}</div>
+                        </mat-option>
+                    </ng-container>
+                </mat-select>
+            </mat-form-field>
+        </form>
+
+    </div>
+
+</div>
+<div mat-dialog-actions class="flex flex-0 items-center justify-center">
+    <button mat-button (click)="onNoClick()">Close</button>
+    <button mat-stroked-button color="primary" (click)="okClick(data)">Send Invitation</button>
+</div>

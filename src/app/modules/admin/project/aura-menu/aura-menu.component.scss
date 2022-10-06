@@ -1,0 +1,32 @@
+::ng-deep {
+    // Header
+    .mat-stroked-button:not(.mat-button-disabled) {
+        border-color: currentColor !important;
+        border-width: 2px;
+    }
+
+    // Tabs
+    .mat-tab-header {
+        border-bottom-width: 2px !important;
+    }
+
+    .mat-ink-bar {
+        height: 4px !important;
+    }
+
+    .mat-tab-label {
+        opacity: 1 !important;
+    }
+
+    .mat-tab-label-active {
+        color: var(--fuse-primary) !important;
+
+        .mat-icon {
+            color: inherit !important;
+
+            svg path {
+                fill: currentColor !important;
+            }
+        }
+    }
+}

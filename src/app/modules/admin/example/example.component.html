@@ -1,0 +1,96 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+    <!-- Main -->
+    <div class="flex-auto p-6 sm:p-10">
+
+        <!-- CONTENT GOES HERE -->
+        <div class="h-400 min-h-400 max-h-400 border-2 border-dashed border-gray-300 rounded-2xl">
+
+
+            <div *ngFor="let player of players">
+                {{player.data().displayName}}
+                {{player.data().email}}
+                {{player.data().userId}}
+                <app-avatar-picture bundleId="string" [userId]="authService.realMasterData.userId" style="padding-right: 15px"></app-avatar-picture>
+            </div>
+
+
+            <p>Posts works!</p>
+            <h1>Collection Datastore</h1>
+            <ul>
+                <li *ngFor="let data of collections | async">
+                    {{data | json}}
+                </li>
+            </ul>
+            <h1>All posts Realtime</h1>
+            <ul>
+                <li *ngFor="let post of allPosts | async">
+                    <img src="{{post.ThumbnailURL}}" width="20">
+                    {{post.DateCreated}}
+                    {{post.BodyTXT}}
+                </li>
+            </ul>
+
+
+
+            <div *ngFor="let user of realMasterData">
+               {{user.data().displayName}}
+                {{user.data().email}}
+                {{user.data().userId}}
+                <app-avatar-picture bundleId="string" [userId]="authService.realMasterData.userId" style="padding-right: 15px"></app-avatar-picture>
+            </div>
+            <!-- Contacts list -->
+            <div class="relative">
+                <ng-container *ngIf="realMasterData  as contacts">
+                    <ng-container *ngIf="realMasterData.length; else noContacts">
+                        <ng-container *ngFor="let user of realMasterData; let i = index; trackBy: trackByFn">
+                            <!-- Group -->
+                            <ng-container *ngIf="i === 0 || user.data().displayName.charAt(0) !== realMasterData[i - 1].data().displayName.charAt(0)">
+                                <div class="z-10 sticky top-0 -mt-px px-6 py-1 md:px-8 border-t border-b font-medium uppercase text-secondary bg-gray-50 dark:bg-gray-900">
+                                    {{user.data().displayName.charAt(0)}}
+                                </div>
+                            </ng-container>
+                            <!-- Contact -->
+                            <a
+                                    class="z-20 flex items-center px-6 py-4 md:px-8 cursor-pointer border-b"
+                                    [ngClass]="{'hover:bg-gray-100 dark:hover:bg-hover': !selectedContact || selectedContact.id !== user.data().userId,
+                                                'bg-primary-50 dark:bg-hover': selectedContact && selectedContact.id === user.data().userId}"
+                                    [routerLink]="['./', user.data().userId]">
+                                <div class="flex flex-0 items-center justify-center w-10 h-10 rounded-full overflow-hidden">
+                                    <ng-container *ngIf="user.avatar">
+                                        <img
+                                                class="object-cover w-full h-full"
+                                                [src]="user.avatar"
+                                                alt="Contact avatar"/>
+                                    </ng-container>
+                                    <ng-container *ngIf="!user.avatar">
+                                        <div class="flex items-center justify-center w-full h-full rounded-full text-lg uppercase bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200">
+                                            {{user.data().displayName.charAt(0)}}
+                                        </div>
+                                    </ng-container>
+                                </div>
+                                <div class="min-w-0 ml-4">
+                                    <div class="font-medium leading-5 truncate">{{user.data().displayName}}</div>
+                                    <div class="leading-5 truncate text-secondary">{{user.data().email}}</div>
+                                </div>F
+                            </a>
+                        </ng-container>
+                    </ng-container>
+                </ng-container>
+
+                <!-- No contacts -->
+                <ng-template #noContacts>
+                    <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">There are no contacts!</div>
+                </ng-template>
+
+            </div>
+
+
+                <div *ngFor="let friend of friends?.friends">
+                    <app-friend [friendId]="friend"></app-friend>
+                </div>
+        </div>
+
+    </div>
+
+</div>

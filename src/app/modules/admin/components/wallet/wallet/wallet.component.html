@@ -1,0 +1,25 @@
+<button
+    class="wallet_button border border-solid h-full flex items-center px-2 rounded-md"
+    [ngClass]="{
+        'border-gray-300': !wallet.isSelected,
+        'border-primary-600 bg-primary-200 text-primary-600': wallet.isSelected && wallet.type === 'rgn',
+        'border-orange-600 bg-orange-200 text-orange-600': wallet.isSelected && wallet.type === 'metamask'
+    }"
+    (click)="connectWallet()"
+    [disabled]="isLoading"
+>
+    <!-- Loading -->
+    <ng-container *ngIf="!wallet.isSelected">
+        <ng-container *ngIf="!isLoading">Connect wallet</ng-container>
+
+        <ng-container *ngIf="isLoading">
+            <mat-progress-spinner [diameter]="24" [mode]="'indeterminate'"></mat-progress-spinner>
+            Loading...
+        </ng-container>
+    </ng-container>
+
+    <!-- Loaded -->
+    <ng-container *ngIf="wallet.isSelected">
+        <p class="overflow-ellipsis overflow-hidden whitespace-nowrap">{{wallet.address}}</p>
+    </ng-container>
+</button>

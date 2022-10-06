@@ -1,0 +1,33 @@
+.wallet-item {
+    position: relative;
+    overflow: hidden;
+
+    &::after {
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        content: '';
+        height: 90%;
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 200px;
+        z-index: 2;
+    }
+
+    &.rgn::after {
+        background-image: url('/assets/images/ui/rgn-wallet.png');
+    }
+
+    &.metamask::after {
+        background-image: url('/assets/images/ui/metamask-wallet.png');
+    }
+
+    &.disabled {
+        cursor: not-allowed;
+        filter: grayscale(.5);
+        opacity: .4;
+        pointer-events: none !important;
+    }
+}

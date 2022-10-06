@@ -1,0 +1,116 @@
+<div class="w-full">
+
+
+<div class="flex flex-col flex-auto min-w-0 gap-5" prose prose-sm>
+    <div class="mt-3 mb-3 sm:text-2xl text-center tracking-tight">
+        <div *ngIf="!isConnected; then connectWalletBlock else mintBlock"></div>
+        <ng-template #connectWalletBlock>
+            <button
+                mat-raised-button
+                (click)="connectWallet()">
+                Connect Wallet
+            </button>
+        </ng-template>
+        <ng-template #mintBlock>
+            <button
+                mat-raised-button
+                (click)="mintFuseBlock()">
+                mint
+            </button>
+        </ng-template>
+        <div><p>{{web3obj?.account}}</p></div>
+    </div>
+    <div class="flex flex-row items-center justify-center">
+        <form
+            class="p-4 bg-card overflow-hidden"
+            [formGroup]="verticalStepperForm"
+        >
+            <mat-form-field class="flex-auto example-container">
+                <input
+                    matInput
+                    [formControlName]="'developer_address'"
+                    placeholder="Input Developer address"
+                >
+            </mat-form-field>
+            <mat-form-field class="flex-auto example-container">
+                <input
+                    matInput
+                    type="number"
+                    [formControlName]="'amount'"
+                    placeholder="Input amount"
+                >
+            </mat-form-field>
+        </form>
+
+    </div>
+</div>
+
+
+<!-- --- -->
+
+
+<div class="w-full p-6 sm:p-10">
+    <!-- Fuseblock list -->
+    <div class="w-full pb-10 mb-10 border-b border-slate-300">
+        <!-- Title -->
+        <div class="w-full flex flex-col mb-5 items-start">
+            <h1 class="text-left text-white text-2xl font-bold md:text-3xl">
+                Manage the Fuseblock list
+            </h1>
+            <h5 class="text-left text-gray-400 text-lg font-normal">
+                Manage all the fuseblock available
+            </h5>
+            <span class="text-sm bg-blue-200 text-blue-800 border border-blue-800 h12 px-2 flex items-center rounded-md">
+                $Karma Amount remaining:
+                {{
+                    !isConnected
+                        ? 'Connect wallet first'
+                        : totalKarma || 'Loading...'
+                }}
+            </span>
+        </div>
+
+        <!-- List -->
+        <div class="gap-5 flex flex-wrap md:gap-10">
+            <ready-loader *ngIf="!isLoadedFuseblock"></ready-loader>
+
+            <div *ngIf="isLoadedFuseblock" class="grid gap-5 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+                <div
+                    *ngFor="let item of listFuseblock"
+                    class="
+                        box flex flex-col justify-end
+                        w-40 h-40
+                        border border-gray-600 border-solid
+                        rounded-lg relative overflow-hidden
+                        p-3
+                        shadow-md ease-in-out duration-300 hover:shadow-2xl
+                    "
+                >
+                    <button
+                        class="absolute top-2 right-2 z-10 p-2 bg-white text-gray-800"
+                        mat-icon-button
+                        [matMenuTriggerFor]="menu"
+                    ><mat-icon>more_vert</mat-icon></button>
+                    <mat-menu #menu="matMenu" xPosition="before" class="w-min">
+                        <button mat-button (click)="setRequirementStatus(item)">Set requirements</button>
+                        <button mat-button color="warn" (click)="cancelFuseBlock(item)">Remove fuseblock</button>
+                    </mat-menu>
+
+                    <img class="w-16 h-16 relative z-10 mx-auto"src="assets/icons/mint-progress.svg" *ngIf="progress" />
+                    <img class="absolute w-full h-full object-cover inset-0 z-0" src="{{item.image}}" />
+
+                    <div class="flex flex-col text-white relative z-20 mt-2">
+                        <p class="flex gap-1">
+                            <img src="/assets/icons/AuraIconWhite.svg" alt="" class="w-3.5" />
+                            {{item.qty}}
+                        </p>
+                        <h4 class="font-bold">{{item.name}}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</div>

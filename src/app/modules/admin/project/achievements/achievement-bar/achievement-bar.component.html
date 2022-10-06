@@ -1,0 +1,47 @@
+<div
+    [ngClass]="{'border-b': border}"
+    class="max-w-full w-full flex justify-center p-4 bg-card border-gray-200"
+>
+  <div class="max-w-6xl w-full flex flex-col justify-center items-start">
+    <div class="flex gap-x-2 mb-4">
+      <div class="flex items-start justify-center min-w-14 w-14 h-14 rounded text-red-800 dark:bg-red-600 dark:text-red-50">
+        <mat-icon
+            class="text-current w-14 h-14"
+            [svgIcon]="reward.icon">
+        </mat-icon>
+      </div>
+      <div class="flex flex-col justify-center gap-y-1">
+        <div class="font-medium text-xl">{{ reward.displayName }}</div>
+        <div class="text-sm text-secondary">
+          <span *ngIf="isCompleted()" class="text-completed text-base">Total Aura Complete!</span>
+          <span *ngIf="!isCompleted()">Next Reward: 0.05 Aura</span>
+        </div>
+      </div>
+    </div>
+    <div class="max-w-6xl w-full flex flex-auto gap-x-1 leading-none">
+      <div class="flex-auto leading-none">
+        <div class="flex flex-col justify-end text-xs relative">
+          <mat-progress-bar
+            class="rounded-full h-2"
+            [mode]="'determinate'"
+            [value]="currentValue"
+          ></mat-progress-bar>
+          <div class="w-px absolute -top-1 z-10" [style]="offsetStyles()">
+            <div class="w-px h-4 bg-black"></div>
+          </div>
+        </div>
+      </div>
+      <div class="flex max-w-18 w-full items-end justify-end -mt-1 leading-none">
+        <span>{{ (initValue / reward.total) | percent : '1.1-2' }}</span>
+      </div>
+    </div>
+    <div>
+      <div
+        *ngIf="!isCompleted()"
+        class="text-sm text-secondary mt-1"
+      >
+        <span class="font-bold">Next Goal:</span> {{ goal.nextStep + reward.stepRewardFormat }}
+      </div>
+    </div>
+  </div>
+</div>

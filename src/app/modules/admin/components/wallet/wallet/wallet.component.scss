@@ -1,0 +1,8 @@
+.wallet_button {
+    transition: all ease-in-out 300ms;
+    max-width: 10rem;
+
+    &:hover {
+        max-width: 24rem;
+    }
+}

@@ -1,0 +1,15 @@
+.mint_snackbar .mat-simple-snackbar .mat-simple-snackbar-action {
+    background: rgba(#ffffff, .2) !important;
+    border-radius: 0.5rem;
+    color: #ffffff !important;
+}
+
+@media (min-width: 960px) {
+    .box_list {
+        grid-template-columns: minmax(0, 1fr) max-content minmax(0, 1fr) !important;
+    }
+
+    .mint-arrow {
+        transform: rotate(0) !important;
+    }
+}

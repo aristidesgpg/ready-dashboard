@@ -1,0 +1,283 @@
+<div class="flex flex-col flex-auto min-w-0 max-w-5xl w-full mx-auto">
+    <div class="flex flex-col items-center p-6 sm:p-10">
+        <div class="flex flex-col lg:justify-between lg:flex-row lg:items-start w-full max-w-7xl">
+            <div class="mt-2 text-2xl sm:text-3xl font-extrabold text-black">
+                <h1 class="text-left text-black">Joining the Ready Games Networks</h1>
+            </div>
+        </div>
+
+        <div class="w-full" >
+            <!-- Alert -->
+            <div #alertBox>
+                <fuse-alert
+                    class="mt-8"
+                    *ngIf="showAlert"
+                    [appearance]="'outline'"
+                    [showIcon]="false"
+                    [type]="alert.type"
+                    [@shake]="alert.type === 'error'">
+                    {{alert.message}}
+                </fuse-alert>
+            </div>
+
+            <!-- Application submited -->
+            <fuse-card class="flex flex-col mt-8 p-6 w-full font-medium" *ngIf="isApplicationSubmited">
+                <h4 class="text-xl">Thank you for submitting your application</h4>
+                <p>We will review your request and contact you soon!</p>
+            </fuse-card>
+
+            <!-- Card -->
+            <fuse-card class="flex flex-col mt-8 p-6 w-full developer-sign-up" *ngIf="!isApplicationSubmited">
+                <mat-stepper
+                    orientation="vertical"
+                    [linear]="false"
+                    #stepper
+                >
+                    <mat-step [stepControl]="firstFormGroup">
+                        <form
+                            class="grid grid-cols-2 gap-6"
+                            [formGroup]="firstFormGroup"
+                        >
+                            <ng-template matStepLabel>Personal information</ng-template>
+
+                            <!-- First Name -->
+                            <mat-form-field appearance="fill">
+                                <mat-label>First Name</mat-label>
+                                <input
+                                    matInput
+                                    placeholder="First name"
+                                    [formControlName]="'firstName'"
+                                    required
+                                />
+                                <mat-error *ngIf="firstFormGroup.get('firstName').hasError('required')">
+                                    First name is required
+                                </mat-error>
+                            </mat-form-field>
+
+                            <!-- Last Name -->
+                            <mat-form-field appearance="fill">
+                                <mat-label>Last Name</mat-label>
+                                <input
+                                    matInput
+                                    placeholder="Last Name"
+                                    [formControlName]="'lastName'"
+                                    required
+                                />
+                                <mat-error *ngIf="firstFormGroup.get('lastName').hasError('required')">
+                                    First name is required
+                                </mat-error>
+                            </mat-form-field>
+
+                            <!-- Referal Code -->
+                            <mat-form-field class="col-span-2">
+                                <mat-label>If you have a referal code, please enter it here</mat-label>
+                                <input
+                                    id="referalCode"
+                                    matInput
+                                    [formControlName]="'referalCode'">
+                            </mat-form-field>
+
+                            <!-- Description -->
+                            <mat-form-field class="col-span-2">
+                                <mat-label>Please describe your project</mat-label>
+                                <textarea
+                                    [formControlName]="'description'"
+                                    matInput
+                                ></textarea>
+                            </mat-form-field>
+
+                            <!-- Is Company Member -->
+                            <mat-checkbox
+                                class="col-span-2"
+                                [color]="'primary'"
+                                [formControlName]="'isCompanyMember'"
+                                (change)="onChangeCompanyMember($event)"
+                            >
+                                <span>Are you signing up on behalf a company?</span>
+                            </mat-checkbox>
+
+                            <!-- Company name -->
+                            <mat-form-field
+                                *ngIf="firstFormGroup.controls['isCompanyMember'].value === true"
+                                class="col-span-2"
+                            >
+                                <mat-label>Please enter the company name</mat-label>
+                                <input
+                                    matInput
+                                    placeholder="Company name"
+                                    [formControlName]="'companyName'"
+                                >
+                                <mat-error *ngIf="firstFormGroup.get('companyName').hasError('required')">
+                                    The company name is required
+                                </mat-error>
+                            </mat-form-field>
+
+                            <div>
+                                <button mat-button matStepperNext>Next</button>
+                            </div>
+                        </form>
+                    </mat-step>
+
+                    <mat-step [stepControl]="secondFormGroup">
+                        <form
+                            class="grid grid-cols-2 gap-6"
+                            [formGroup]="secondFormGroup"
+                        >
+                            <ng-template matStepLabel>Game information</ng-template>
+
+                            <!-- Gamelink IOS -->
+                            <mat-form-field appearance="fill">
+                                <mat-label>Gamelink IOS</mat-label>
+                                <input
+                                    matInput
+                                    [formControlName]="'linkIos'"
+                                    placeholder="Gamelink IOS"
+                                />
+                            </mat-form-field>
+
+                            <!-- Gamelink Google -->
+                            <mat-form-field appearance="fill">
+                                <mat-label>Gamelink Google</mat-label>
+                                <input
+                                    matInput
+                                    [formControlName]="'linkGoogle'"
+                                    placeholder="Gamelink Google"
+                                />
+                            </mat-form-field>
+
+                            <!-- Game webpage -->
+                            <mat-form-field appearance="fill">
+                                <mat-label>Game webpage</mat-label>
+                                <input
+                                    matInput
+                                    [formControlName]="'webpage'"
+                                    placeholder="Game webpage"
+                                />
+                            </mat-form-field>
+
+                            <!-- Game KPIs -->
+                            <mat-form-field appearance="fill">
+                                <mat-label>Game KPIs</mat-label>
+                                <input
+                                    matInput
+                                    [formControlName]="'kpis'"
+                                    placeholder="Game KPIs"
+                                />
+                            </mat-form-field>
+
+                            <!-- ARPPU -->
+                            <mat-form-field appearance="fill">
+                                <mat-label>
+                                    <mat-icon
+                                        class="ml-1.5 icon-size-4 text-hint"
+                                        [svgIcon]="'heroicons_solid:information-circle'"
+                                        [matTooltip]="'\'Average Revenue Per Paying User\', and it refers to the estimated revenue a single paying user generates during a specified period'">
+                                    </mat-icon>
+                                    ARPPU
+                                </mat-label>
+                                <input
+                                    matInput
+                                    [formControlName]="'arppu'"
+                                    placeholder="ARPPU"
+                                />
+                            </mat-form-field>
+
+                            <!-- ARPDAU -->
+                            <mat-form-field appearance="fill">
+                                <mat-label style="pointer-events: auto;">
+                                    <mat-icon
+                                        class="ml-1.5 icon-size-4 text-hint"
+                                        [svgIcon]="'heroicons_solid:information-circle'"
+                                        [matTooltip]="'\'Average Revenue Per Daily Active User\' and is an important part of measuring and operating against a successful monetization strategy'">
+                                    </mat-icon>
+                                    ARPDAU
+                                </mat-label>
+                                <input
+                                    matInput
+                                    [formControlName]="'arpdau'"
+                                    placeholder="ARPDAU"
+                                />
+                            </mat-form-field>
+
+                            <!-- DAU -->
+                            <mat-form-field appearance="fill">
+                                <mat-label>
+                                    <mat-icon
+                                        class="ml-1.5 icon-size-4 text-hint"
+                                        [svgIcon]="'heroicons_solid:information-circle'"
+                                        [matTooltip]="'Daily Active User'">
+                                    >
+                                    </mat-icon>
+                                    DAU
+                                </mat-label>
+                                <input
+                                    matInput
+                                    [formControlName]="'dau'"
+                                    placeholder="DAU"
+                                />
+                            </mat-form-field>
+
+                            <!-- MAU -->
+                            <mat-form-field appearance="fill">
+                                <mat-label>
+                                    <mat-icon
+                                        class="ml-1.5 icon-size-4 text-hint"
+                                        [svgIcon]="'heroicons_solid:information-circle'"
+                                        [matTooltip]="'Monthly Active User'">
+                                    </mat-icon>
+                                    MAU
+                                </mat-label>
+                                <input
+                                    matInput
+                                    [formControlName]="'mau'"
+                                    placeholder="MAU"
+                                />
+                            </mat-form-field>
+
+                            <!-- Retention -->
+                            <mat-form-field class="col-span-2" appearance="fill">
+                                <mat-label>Retention</mat-label>
+                                <mat-select [formControlName]="'retention'">
+                                    <mat-option value="D1">D1</mat-option>
+                                    <mat-option value="D7">D7</mat-option>
+                                    <mat-option value="D30">D30</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <!-- ToS and PP -->
+                            <mat-checkbox
+                                class="col-span-2"
+                                [color]="'primary'"
+                                [formControlName]="'agreements'">
+                                <span>Please read and agree to</span>
+                                <a
+                                    class="ml-1 text-primary-500 hover:underline"
+                                    [routerLink]="['./']">Terms of Service
+                                </a>
+                            </mat-checkbox>
+                        </form>
+
+                        <div>
+                            <button mat-button matStepperPrevious>Back</button>
+                            <!-- Submit button -->
+                            <button
+                                class="fuse-mat-button-large w-full mt-6"
+                                mat-flat-button
+                                [color]="'primary'"
+                                [disabled]="firstFormGroup.disabled"
+                                (click)="signUp()">
+                                <span *ngIf="!firstFormGroup.disabled">
+                                    Sign up
+                                </span>
+                                <mat-progress-spinner
+                                    *ngIf="firstFormGroup.disabled"
+                                    [diameter]="24"
+                                    [mode]="'indeterminate'"></mat-progress-spinner>
+                            </button>
+                        </div>
+                    </mat-step>
+                </mat-stepper>
+            </fuse-card>
+        </div>
+    </div>
+</div>

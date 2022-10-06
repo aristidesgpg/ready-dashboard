@@ -1,0 +1,97 @@
+<h1 mat-dialog-title>You are adding one item to the minting process</h1>
+
+<div class="mint_dialog" mat-dialog-content>
+    <!-- Count -->
+    <div class="flex gap-5 mb-5">
+        <div class="grid items-center gap-x-2.5">
+            <img src="/assets/icons/AuraIconWhite.svg" class="filter invert h-3.5" />
+            <p>{{data.fuseblock.total}}</p>
+            <small class="col-span-2">Total amount</small>
+        </div>
+
+        <img class="w-5 h-5 opacity-40" src="assets/icons/angles-right.svg" />
+
+        <div class="grid items-center gap-x-2.5">
+            <img src="/assets/icons/AuraIconWhite.svg" class="filter invert h-3.5" />
+            <p>{{data.fuseblock.remaining}}</p>
+            <small class="col-span-2">Remaining</small>
+        </div>
+    </div>
+
+    <!-- Item -->
+    <div class="flex gap-5">
+        <div class="bg-gray-200 relative w-40 h-40 overflow-hidden rounded-lg flex-shrink-0">
+            <img class="insent-0 absolute object-cover" src="{{data.item.imageLink}}" />
+        </div>
+
+        <div class="flex flex-col gap-5 w-full">
+            <h2>{{data.item.name}}</h2>
+
+            <form class="grid grid-cols-2 gap-5" [formGroup]="mintForm" (ngSubmit)="onConfirm()">
+                <mat-form-field appearance="fill">
+                    <mat-label class="pointer-events-all">
+                        <mat-icon
+                            class="mr-1.5 icon-size-4 text-hint"
+                            [svgIcon]="'heroicons_solid:information-circle'"
+                            [matTooltip]="'Number of NFT to mint for this Item id'">
+                        </mat-icon>
+                        Number of NFT
+                    </mat-label>
+                    <input matInput required formControlName="nft" cdkFocusInitial />
+                    <mat-error *ngIf="mintForm.get('nft').hasError('required')">
+                        Number of NFT is required
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>
+                        <mat-icon
+                            class="mr-1.5 icon-size-4 text-hint"
+                            [svgIcon]="'heroicons_solid:information-circle'"
+                            [matTooltip]="'Number of $karma token to put in this Item id'">
+                        </mat-icon>
+                        Number of $karma
+                    </mat-label>
+                    <input matInput required formControlName="karma" />
+                    <mat-error *ngIf="mintForm.get('karma').hasError('required')">
+                        Number of $karma is required
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill" class="col-span-2">
+                    <mat-label>
+                        <mat-icon
+                            class="mr-1.5 icon-size-4 text-hint"
+                            [svgIcon]="'heroicons_solid:information-circle'"
+                            [matTooltip]="'Number of $karma token to put in this Item id'">
+                        </mat-icon>
+                        Total $karma used
+                    </mat-label>
+                    <input matInput required formControlName="total" readonly />
+                    <mat-error *ngIf="mintForm.controls.total.errors && mintForm.controls.total.errors.max">
+                        The amount of $karma used exceed the remaining amount available
+                    </mat-error>
+                </mat-form-field>
+
+                <div class="flex flex-nowrap gap-5 col-span-2">
+                    <button
+                        mat-button
+                        class="shrink-0"
+                        type="button"
+                        (click)="onCancel()"
+                        [disabled]="mintForm.disabled"
+                    >Cancel</button>
+                    <button
+                        mat-flat-button
+                        class="w-full"
+                        [color]="'primary'"
+                        [disabled]="mintForm.disabled"
+                    >
+                        <span *ngIf="!mintForm.disabled">Add Item</span>
+                        <mat-spinner *ngIf="mintForm.disabled" [diameter]="30" class="mx-auto"></mat-spinner>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

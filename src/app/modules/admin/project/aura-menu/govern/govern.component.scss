@@ -1,0 +1,50 @@
+.govern-item {
+    position: relative;
+    overflow: hidden;
+
+    &::after {
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        content: '';
+        height: 90%;
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 200px;
+        z-index: 2;
+    }
+
+    &.game {
+        background: linear-gradient(90deg, #8852FC 0%, #BE99FF 100%);
+
+        &::after {
+            background-image: url('/assets/images/ui/govern-bg-game.png');
+        }
+    }
+
+    &.engineer {
+        background: linear-gradient(90deg, #3798FB 0%, #9BCBFC 100%);
+
+        &::after {
+            background-image: url('/assets/images/ui/govern-bg-engineer.png');
+        }
+    }
+
+    &.creator {
+        background: linear-gradient(90deg, #DD35CB 0%, #FF85F1 100%);
+
+        &::after {
+            background-image: url('/assets/images/ui/govern-bg-creator.png');
+        }
+    }
+
+    &.economic {
+        background: linear-gradient(90deg, #5166D6 0%, #A0ADF1 100%);
+
+        &::after {
+            background-image: url('/assets/images/ui/govern-bg-economic.png');
+        }
+    }
+}

@@ -1,0 +1,19 @@
+$_colors:
+    '-primary' 'bg-primary-500' 'text-white',
+    '-success' 'bg-green-500' 'text-white',
+    '-error' 'bg-red-500' 'text-white',
+    '-info' 'bg-blue-500' 'text-white',
+    '-warning' 'bg-yellow-500' 'text-white';
+
+.snackbar {
+    @each $_classe, $_color, $_text in $_colors {
+        &#{$_classe} {
+            @apply #{$_color} #{$_text} #{!important};
+
+            .mat-simple-snackbar-action {
+                background-color: rgba(#ffffff, 0.4);
+                color: #ffffff !important;
+            }
+        }
+    }
+}

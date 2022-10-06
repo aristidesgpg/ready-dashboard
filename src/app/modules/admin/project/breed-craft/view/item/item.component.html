@@ -1,0 +1,137 @@
+<!-- Loading -->
+<ready-loader *ngIf="!isLoaded"></ready-loader>
+
+<ng-container *ngIf="isLoaded">
+    <!-- No item found -->
+    <fuse-card class="w-full max-w-md mx-auto flex flex-col gap-5 p-6 sm:p-10" *ngIf="!this.breed">
+        <h3 class="text-red-700 text-3xl">Access denied</h3>
+        <p class="text-gray-500 text-lg">The item you are trying to access do not exists or you don't have permissin to access.</p>
+    </fuse-card>
+
+    <!-- Item -->
+    <section class="w-full max-w-5xl py-10 px-5 mx-auto flex flex-col gap-10 relative z-10">
+        <!-- Header -->
+        <div class="flex flex-col items-center gap-2 md:flex-row">
+            <div class="text-2xl text-left sm:text-3xl lg:text-4xl font-extrabold text-white mb-5 max-w-100">
+                <h1>Craft new Item</h1>
+                <h5 class="text-gray-400 text-lg font-normal">You are creating a new item for the selected project. Select your items that will be used in the crafting process!</h5>
+            </div>
+
+            <button mat-stroked-button color="primary" routerLink="../" class="md:ml-auto text-white">Go back</button>
+        </div>
+
+        <!-- Details -->
+        <form [formGroup]="itemForm" *ngIf="this.breed" (ngSubmit)="onSubmit()">
+            <div class="flex gap-5 item_card relative">
+                <div class="max-w-50">
+                    <div class="rounded-md border border-dashed border-white w-50 h-50 flex items-center justify-center">
+                        <mat-icon class="text-white">library_add</mat-icon>
+                    </div>
+                </div>
+
+                <div class="text-white flex flex-col gap-5">
+                    <mat-form-field appearance="standard">
+                        <mat-label>Name your recipe</mat-label>
+                        <input matInput formControlName="name" placeholder="The name of your recipe">
+                        <mat-hint>Hint</mat-hint>
+                    </mat-form-field>
+
+                    <mat-checkbox formControlName="mustConsumeAll" color="warn">Must consume all items</mat-checkbox>
+
+                    <button mat-raised-button color="primary" class="mt-4" [disabled]="itemForm.disabled">
+                        <mat-progress-spinner
+                            *ngIf="itemForm.disabled"
+                            [diameter]="24"
+                            [mode]="'indeterminate'"></mat-progress-spinner>
+
+                        <span *ngIf="!itemForm.disabled">Update Recipe</span>
+                    </button>
+                </div>
+
+                <button mat-icon-button class="absolute top-2 right-2" type="button">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+        </form>
+
+        <!-- Select Items -->
+        <div class="grid grid-cols-2 gap-4">
+            <div class="flex flex-col gap-2">
+                <!-- Add new Required Item -->
+                <div class="item_card item_box cursor-pointer" (click)="addRequiredItem()">
+                    <div class="border border-white border-solid rounded-md bg-white bg-opacity-50 h-13 w-13 flex items-center justify-center">
+                        <mat-icon class="text-white">library_add</mat-icon>
+                    </div>
+                    <h4>Add new craft Item</h4>
+                </div>
+
+                <hr class="border-t border-solid border-white opacity-50 my-3">
+
+                <!-- No item list -->
+                <h4 class="text-gray-300 text-lg font-semibold" *ngIf="!breed.requiredVirtualItems.length">No items added yet</h4>
+
+                <!-- List of items -->
+                <ng-container *ngIf="breed.requiredVirtualItems.length">
+                    <div class="item_card item_box" *ngFor="let item of breed.requiredVirtualItems">
+                        <figure class="">
+                            <div class="item_consume" matTooltip="Must consume item" *ngIf="item.consume">
+                                <mat-icon class="text-white absolute bottom-1 left-1 text-lg">block</mat-icon>
+                            </div>
+
+                            <img src="{{item.imageLink}}" class="w-full h-full object-cover" />
+                        </figure>
+
+                        <div class="flex flex-col gap-1">
+                            <p>{{item.name}}</p>
+                            <div class="flex items-center gap-1">
+                                <mat-icon class="text-white">edit</mat-icon>
+                                {{item.amount}}
+                            </div>
+                        </div>
+
+                        <button class="ml-auto" mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
+                        <mat-menu #menu="matMenu">
+                            <button mat-menu-item>Remove item</button>
+                        </mat-menu>
+                    </div>
+                </ng-container>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <!-- Add new Reward Item -->
+                <div class="item_card item_box cursor-pointer" (click)="addRewardedItem()">
+                    <div class="border border-white border-solid rounded-md bg-white bg-opacity-50 h-13 w-13 flex items-center justify-center">
+                        <mat-icon class="text-white">library_add</mat-icon>
+                    </div>
+                    <h4>Add new reward Item</h4>
+                </div>
+
+                <hr class="border-t border-solid border-white opacity-50 my-3">
+
+                <!-- No item list -->
+                <h4 class="text-gray-300 text-lg font-semibold" *ngIf="!breed.rewardedVirtualItems.length">No items added yet</h4>
+
+                <!-- List of items -->
+                <ng-container *ngIf="breed.rewardedVirtualItems.length">
+                    <div class="item_card item_box" *ngFor="let item of breed.rewardedVirtualItems">
+                        <figure class="border border-white border-solid rounded-md h-13 w-13 overflow-hidden">
+                            <img src="{{item.imageLink}}" class="w-full h-full object-cover" />
+                        </figure>
+
+                        <div class="flex flex-col gap-1">
+                            <p>{{item.name}}</p>
+                            <div class="flex items-center gap-1">
+                                <mat-icon class="text-white">edit</mat-icon>
+                                {{item.amount}}
+                            </div>
+                        </div>
+
+                        <button mat-icon-button color="warn" class="ml-auto">
+                            <mat-icon>delete_outline</mat-icon>
+                        </button>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </section>
+</ng-container>

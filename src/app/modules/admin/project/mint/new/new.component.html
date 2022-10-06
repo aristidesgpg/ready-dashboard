@@ -1,0 +1,133 @@
+<div class="w-full p-6 sm:p-10">
+    <!-- Loading data -->
+    <ready-loader *ngIf="!isLoaded"></ready-loader>
+
+    <!-- Data loaded -->
+    <ng-container *ngIf="isLoaded">
+        <!-- Header -->
+        <div class="flex flex-col gap-x-4 w-full pb-10 mb-10 border-b border-slate-300 md:flex-row text-white">
+            <!-- Image -->
+            <mint-item class="w-40 h-40 md:w-50 md:h-50" [item]="fuseblock" [quantity]="false"></mint-item>
+
+            <div class="flex flex-col justify-end">
+                <!-- Title -->
+                <h1 class="text-left text-2xl font-bold md:text-3xl">
+                    New NFT Mint process
+                </h1>
+                <h5 class="text-left text-gray-400 text-lg font-normal">
+                    You are now starting a new minting process. Please follow the next steps.
+                </h5>
+
+                <!-- Count -->
+                <div class="flex gap-5 mt-5">
+                    <div class="grid items-center gap-x-2.5">
+                        <img src="/assets/icons/AuraIconWhite.svg" class="h-3.5" />
+                        <p>{{fuseblock.karma}}</p>
+                        <small class="col-span-2">Total amount</small>
+                    </div>
+
+                    <img class="w-5 h-5 opacity-40 filter invert" src="assets/icons/angles-right.svg" />
+
+                    <div class="grid items-center gap-x-2.5">
+                        <img src="/assets/icons/AuraIconWhite.svg" class="h-3.5" />
+                        <p>{{listSelected.remaining}}</p>
+                        <small class="col-span-2">Remaining</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="grid grid-cols-1 gap-4 box_list md:gap-10">
+            <!-- Goods List -->
+            <div class="self-start grid grid-cols-1 gap-5">
+                <h2 class="font-bold text-3xl text-white">Select your item</h2>
+
+                <form [formGroup]="searchForm">
+                    <mat-form-field appearance="outline" class="w-full">
+                        <input matInput formControlName="search" placeholder="Search your item" />
+                    </mat-form-field>
+                </form>
+
+                <div class="flex flex-wrap gap-4">
+                    <p *ngIf="!listItems.length">No items found. Check your Virtual Items or the search term.</p>
+
+                    <ng-container *ngIf="listItems.length">
+                        <mint-item
+                            class="w-40 h-40"
+                            *ngFor="let item of listItems; let i = index"
+                            [item]="item"
+                            [quantity]="false"
+                            [image]="'imageLink'"
+                            [click]="true"
+                            (click)="selectItem(item, i)"
+                        ></mint-item>
+                    </ng-container>
+                </div>
+            </div>
+
+            <!-- Spacer -->
+            <img class="transform rotate-90 w-6 h-6 opacity-40 mint-arrow filter invert" src="assets/icons/angles-right.svg" />
+
+            <!-- Goods Selected -->
+            <div class="self-start grid grid-cols-1 gap-5">
+                <h2 class="font-bold text-3xl text-white">Manage your list to mint</h2>
+
+                <!-- No Items -->
+                <p *ngIf="!listSelected.items.length" class="text-gray-300">To start the mint process, please select your items.</p>
+
+                <!-- Items -->
+                <ng-container *ngIf="listSelected.items.length">
+                    <div *ngFor="let item of listSelected.items; let i = index" class="flex gap-2 mb-2 pb-2 border-b border-slate-300">
+                        <!-- Image -->
+                        <div class="bg-gray-200 relative w-30 h-30 overflow-hidden rounded-lg flex-shrink-0">
+                            <img class="insent-0 object-cover" src="{{item.image}}" />
+                        </div>
+
+                        <!-- Info -->
+                        <div class="w-full">
+                            <!-- Head -->
+                            <div class="flex gap-2 items-center">
+                                <h2 class="w-full text-lg">{{item.name}}</h2>
+                                <button mat-icon-button color="warn" (click)="removeItem(item, i)">
+                                    <mat-icon>delete_outline</mat-icon>
+                                </button>
+                            </div>
+
+                            <!-- Form -->
+                            <div class="grid grid-cols-2 gap-2">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Number of NFT</mat-label>
+                                    <input matInput [value]="item.nft" [readonly]="true" placeholder="Number of NFT" />
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Number of $karma</mat-label>
+                                    <input matInput [value]="item.karma" [readonly]="true" placeholder="Number of $karma" />
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+
+            </div>
+        </div>
+
+        <!-- Cancel Fuseblock -->
+        <div class="mt-10 w-full flex flex-wrap gap-5">
+            <button
+                mat-stroked-button
+                (click)="setRequirementStatus()"
+                class="text-white"
+            >
+                Set requirements
+            </button>
+            <button
+                mat-stroked-button
+                color="warn"
+                (click)="cancelFuseBlock()">
+                Cancel Fuseblock
+            </button>
+        </div>
+    </ng-container>
+</div>

@@ -1,0 +1,51 @@
+:host {
+    @apply flex flex-col w-full bg-gray-800 overflow-hidden;
+    flex: 1 1 auto;
+    width: 100%;
+    height: 100%;
+    background: #020b20;
+
+    &::before,
+    &::after {
+        content: '';
+        filter: blur(120px);
+        position: absolute;
+        width: 100%;
+        background-position: top left, bottom right;
+        background-repeat: no-repeat;
+        background-size: 90% 70%, 90% 70%;
+        height: 100%;
+        max-height: 500px;
+    }
+
+    &::before {
+        background-image: radial-gradient(
+                50% 50% at 50% 50%,
+                #704de3 0%,
+                rgba(112, 77, 227, 0.43) 54.49%,
+                rgba(112, 77, 227, 0) 100%
+            ),
+            radial-gradient(
+                50% 50% at 50% 50%,
+                #704de3 0%,
+                rgba(112, 77, 227, 0.43) 54.49%,
+                rgba(112, 77, 227, 0) 100%
+            );
+        left: 0;
+        max-width: 1000px;
+        top: 0;
+        transform: translate(-50%, -50%);
+    }
+
+    &::after {
+        background-image: radial-gradient(
+            circle,
+            rgba(112, 77, 227, 1) 0%,
+            rgba(112, 77, 227, 0.4) 70%,
+            rgba(112, 77, 227, 0) 100%
+        );
+        bottom: 0;
+        opacity: 0.6;
+        right: -40%;
+    }
+}

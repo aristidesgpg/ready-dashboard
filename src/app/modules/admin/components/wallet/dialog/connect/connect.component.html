@@ -1,0 +1,144 @@
+<mat-dialog-content [ngSwitch]="step">
+    <!-- Step 1 - Wallet already selected -->
+    <div *ngSwitchCase="1">
+        <h4 mat-dialog-title class="text-xl text-center text-gray-600">You already have a wallet connected</h4>
+
+        <div class="
+            border border-solid border-blue-600
+            bg-blue-300 text-blue-600
+            min-h-10 px-4 flex items-center rounded
+        ">
+            <h4 class="font-bold text-lg">{{wallet.address}}</h4>
+        </div>
+
+        <button
+            mat-flat-button
+            color="primary"
+            class="fuse-mat-button-large px-20 mx-auto block mt-5"
+            (click)="switchAccount()"
+        >
+            Switch account
+        </button>
+
+        <ng-container [ngTemplateOutlet]="close"></ng-container>
+    </div>
+
+    <!-- Step 2 - Select Wallet type -->
+    <div class="grid grid-cols-1 gap-5" *ngSwitchCase="2">
+        <h4 mat-dialog-title class="text-xl text-center text-gray-600">Select a Wallet method to connect</h4>
+
+        <!-- MetaMask -->
+        <button
+            class="rounded-2xl text-white text-2xl p-6 flex items-center h-24 bg-gradient-to-tr from-orange-400 to-orange-700 wallet-item metamask"
+            (click)="selectWalletType('metamask')"
+            [class.disabled]="!hasWeb3Support"
+        >
+            Connect to MetaMask
+        </button>
+
+        <!-- RGN -->
+        <button
+            class="rounded-2xl text-white text-2xl p-6 flex items-center h-24 bg-gradient-to-tr from-primary-400 to-primary-700 wallet-item rgn"
+            (click)="selectWalletType('rgn')"
+        >
+            Connect to RGN Wallet
+        </button>
+
+        <ng-container [ngTemplateOutlet]="close"></ng-container>
+    </div>
+
+    <!-- Step 3 - Metamask: Select Wallet address -->
+    <div *ngSwitchCase="3">
+        <div class="text-center text-md text-gray-600" *ngIf="process.metamask">
+            <p>Loading...</p>
+            <mat-spinner [diameter]="30"></mat-spinner>
+        </div>
+
+        <ng-container *ngIf="!process.metamask">
+            <h4 mat-dialog-title class="text-xl text-center text-gray-600">Select your wallet address</h4>
+
+            <div class="grid grid-cols-1 gap-2">
+                <div
+                    class="
+                        border border-solid border-gray-600
+                        bg-gray-200 text-gray-600 hover:bg-blue-200
+                        px-3 min-h-8 flex items-center rounded cursor-pointer
+                    "
+                    *ngFor="let item of listMetamask"
+                    (click)="selectMetamask(item)"
+                >
+                    {{item}}
+                </div>
+            </div>
+        </ng-container>
+    </div>
+
+    <!-- Step 4 - RGN: Set password -->
+    <div *ngSwitchCase="4">
+        <div class="text-center text-md text-gray-600" *ngIf="process.rgn">
+            <p>Loading...</p>
+            <mat-spinner [diameter]="30"></mat-spinner>
+        </div>
+
+        <ng-container *ngIf="!process.rgn">
+            <!-- Select - Has wallet -->
+            <ng-container *ngIf="listRgn">
+                <h4 mat-dialog-title class="text-xl text-center text-gray-600">Select your wallet address</h4>
+
+                <div class="grid grid-cols-1 gap-2">
+                    <div
+                        class="
+                            border border-solid border-gray-600
+                            bg-gray-200 text-gray-600 hover:bg-blue-200
+                            px-3 min-h-8 flex items-center rounded cursor-pointer
+                        "
+                        *ngFor="let item of listRgn"
+                        (click)="selectRgn(item)"
+                    >
+                        {{item}}
+                    </div>
+                </div>
+            </ng-container>
+
+            <!-- Create - Don't have wallet -->
+            <ng-container *ngIf="!listRgn">
+                <h4 mat-dialog-title class="text-xl text-center text-gray-600">Create your RGN wallet</h4>
+
+                <form [formGroup]="rgnForm" class="flex flex-col">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Type your wallet password</mat-label>
+                        <input
+                            matInput
+                            type="password"
+                            placeholder="Type your wallet password"
+                            [formControlName]="'password'"
+                        />
+                    </mat-form-field>
+
+                    <button
+                        type="button"
+                        class="fuse-mat-button-large px-20"
+                        mat-flat-button
+                        [color]="'primary'"
+                        [disabled]="rgnForm.disabled"
+                        (click)="createRgnWallet()">
+
+                        <span *ngIf="!rgnForm.disabled">
+                            Create RGN Wallet
+                        </span>
+                        <mat-progress-spinner
+                            *ngIf="rgnForm.disabled"
+                            [diameter]="24"
+                            [mode]="'indeterminate'"></mat-progress-spinner>
+                    </button>
+                </form>
+            </ng-container>
+        </ng-container>
+    </div>
+</mat-dialog-content>
+
+<ng-template #close>
+    <div class="flex justify-center mt-5">
+        <button mat-button mat-dialog-close>Cancel</button>
+    </div>
+</ng-template>

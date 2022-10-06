@@ -1,0 +1,11 @@
+mat-progress-bar .mat-progress-bar-fill::after {
+  background-color: #2CC972 !important;
+}
+
+mat-progress-bar .mat-progress-bar-buffer {
+  background: #E4E8EB !important;
+}
+
+.text-completed {
+  color: #2CC972;
+}

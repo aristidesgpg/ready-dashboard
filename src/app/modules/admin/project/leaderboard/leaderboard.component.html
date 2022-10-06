@@ -1,0 +1,81 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <div class="flex flex-col items-center p-6 sm:p-10">
+        <div class="flex flex-col md:flex-row md:justify-between md:items-start w-full max-w-7xl gap-4">
+            <div class="text-2xl sm:text-3xl font-extrabold">
+                <h1 class="text-left text-white">Network Leaderboards</h1>
+                <h5 class="text-left text-gray-400 text-lg font-normal">Earn Aura by placing on the Leaderboards!</h5>
+            </div>
+            <div class="w-max grid grid-flow-col items-center gap-2 bg-white rounded-full p-2 px-4 text-indigo-600 font-bold uppercase">
+                <img src="/assets/icons/AuraIcon.svg" alt="" class="w-3.5" />
+                Aura in 3 d
+            </div>
+        </div>
+
+        <div class="leaderboard_icons grid grid-cols-3 gap-x-8 max-w-7xl w-full mt-8" [ngClass]="{'li_mobile': isMobile}">
+            <div (click)="selectList('Retention')">
+                <img src="/assets/icons/leaderboard-retention.svg" [ngClass]="{'active': currentList === 'Retention'}" />
+            </div>
+            <div (click)="selectList('DAU')">
+                <img src="/assets/icons/leaderboard-dau.svg" [ngClass]="{'active': currentList === 'DAU'}" />
+            </div>
+            <div (click)="selectList('ARPDAU')">
+                <img src="/assets/icons/leaderboard-arpdau.svg" [ngClass]="{'active': currentList === 'ARPDAU'}" />
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-x-8 max-w-7xl w-full">
+            <ng-container *ngFor="let board of leadersList">
+                <fuse-card class="flex flex-col mt-8 w-full" *ngIf="!isMobile || currentList === board.category">
+                    <div class="leaderboard_head text-center text-white text-xl sm:text-2xl font-extrabold px-4 py-3">
+                        Top {{ board.category }}
+                    </div>
+                    <div class="flex flex-col w-full p-6">
+                        <ng-container *ngFor="let leader of board.users; trackBy: trackByFn; let ind = index">
+                            <ng-container *ngTemplateOutlet="leaderboardItem; context: { user: leader }"></ng-container>
+                        </ng-container>
+
+                        <div *ngIf="currentUser?.position > 10" class="mt-3">
+                            <mat-divider class="mb-4"></mat-divider>
+                            <ng-container *ngTemplateOutlet="leaderboardItem; context: { user: currentUser }">
+                            </ng-container>
+                        </div>
+
+                        <!-- <div class="flex items-center mt-6 -mx-3">
+                            <button
+                                class="px-3"
+                                mat-button
+                                [color]="'primary'"
+                            >
+                                See all suggestions
+                            </button>
+                        </div> -->
+                    </div>
+                </fuse-card>
+            </ng-container>
+        </div>
+    </div>
+</div>
+
+<ng-template #leaderboardItem let-leader="user">
+    <div class="leaderboard_item w-full flex py-2 items-center gap-2 rounded-lg" [ngClass]="{'bg-blue-50': isCurrentProfile(leader.id)}">
+        <div
+            class="flex justify-center items-center w-5 h-5 text-gray-600 text-sm font-bold"
+        >
+            {{ leader?.position }}
+        </div>
+        <div class="w-12 h-12 rounded-full relative">
+            <img
+            class="w-12 h-12 rounded-full"
+            [src]="leader?.avatar"
+            alt="Card cover image">
+        </div>
+        <div class="flex flex-col flex-wrap min-w-0">
+            <div class="font-medium leading-none">{{ leader?.name }}</div>
+            <div class="text-md leading-none text-secondary mt-1">{{ leader?.info }}</div>
+        </div>
+        <div class="w-max grid grid-flow-col items-center gap-2 rounded-full p-2 px-4 ml-auto text-indigo-600 bg-slate-300">
+            <img src="/assets/icons/AuraIcon.svg" alt="" class="w-3.5" />
+            50
+        </div>
+    </div>
+</ng-template>

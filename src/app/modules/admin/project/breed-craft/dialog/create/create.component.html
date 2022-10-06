@@ -1,0 +1,37 @@
+<div class="text-gray-600 flex flex-col relative gap-5">
+    <button mat-dialog-close [disabled]="createForm.disabled" class="flex items-center justify-center bg-white absolute -top-3 -right-3 z-10 h-8 w-8 rounded-full border border-solid border-gray-500 ">
+        <mat-icon class="text-gray-500">close</mat-icon>
+    </button>
+
+    <h1 class="text-2xl text-gray-900 font-bold">Create New Recipe</h1>
+    <h4 class="text-lg text-gray-500">You are creating a new recipe, give it a name to start.</h4>
+
+    <form [formGroup]="createForm" (ngSubmit)="onSubmit()" class="w-full">
+        <mat-form-field appearance="outline" class="w-full max-w-120">
+            <mat-label>Name of the recipe</mat-label>
+            <input matInput formControlName="name" placeholder="Name of the recipe" />
+            <mat-error>The name is required</mat-error>
+        </mat-form-field>
+
+        <div class="flex justify-end gap-4">
+            <button
+                mat-dialog-close
+                class="rounded-full bg-gray-300 text-gray-800 h-10 flex items-center px-3"
+                [disabled]="createForm.disabled"
+                type="button"
+            >Cancel</button>
+
+            <button
+                class="rounded-full bg-primary-500 text-white h-10 flex items-center px-3"
+                [disabled]="createForm.disabled"
+            >
+                <mat-progress-spinner
+                    *ngIf="createForm.disabled"
+                    [diameter]="24"
+                    [mode]="'indeterminate'"></mat-progress-spinner>
+
+                <span *ngIf="!createForm.disabled">Create Recipe</span>
+            </button>
+        </div>
+    </form>
+</div>

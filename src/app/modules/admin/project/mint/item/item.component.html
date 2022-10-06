@@ -1,0 +1,35 @@
+<div
+    class="
+        box
+        border border-solid border-gray-300
+        flex flex-col justify-end
+        w-full h-full
+        rounded-lg relative overflow-hidden
+        p-3
+    "
+    [ngClass]="{
+        'box_progress': progress,
+        'cursor-pointer shadow-2xl ease-in-out duration-300 hover:shadow-md': click,
+        'pointer-events-none': !click
+    }"
+>
+    <div
+        *ngIf="item.karma"
+        class="top-2 right-2 bg-gray-900 bg-opacity-30 py-1 px-2 rounded-sm flex gap-1 z-20 mb-auto self-end text-white"
+    >
+        <img src="/assets/icons/AuraIconWhite.svg" alt="" class="w-2.5" />
+        {{item.karma}}
+    </div>
+
+    <div class="flex flex-col text-white relative z-20 mt-2">
+        <p class="flex gap-1" *ngIf="quantity && item.qty">
+            <mat-icon class="text-white text-lg">label</mat-icon>
+            {{item.qty}}
+        </p>
+        <h4 class="font-bold">{{item.name}}</h4>
+    </div>
+
+    <!-- <div class="absolute inset-0 z-10 bg-gray-900 bg-opacity-50"></div> -->
+
+    <img class="absolute inset-0 z-0 object-cover" src="{{item[image]}}" />
+</div>

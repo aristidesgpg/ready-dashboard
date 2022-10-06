@@ -1,0 +1,32 @@
+<div class="grid gap-10 pb-20 w-full max-w-screen-lg mx-auto">
+    <div class="text-center text-xl text-gray-400">
+        <h4>Fuseblocks are used to mint NFT items to add into your game.</h4>
+        <h4>Fuseblocks contain Aura - meaning every NFT created with a fuseblock also contains Aura.</h4>
+        <h4 class="mt-2">Creating NFT items is simple, just click "Start Minting"to begin the process!</h4>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
+        <fuse-card class="flex flex-col p-6">
+            <mat-icon class="w-10 h-10" svgIcon="fuseblock_balance_icon"></mat-icon>
+            <p class="text-lg">Current Balance</p>
+            <h4 class="text-4xl font-extrabold">3</h4>
+            <p class="text-lg">Fuseblocks</p>
+        </fuse-card>
+
+        <div class="flex flex-col gap-5">
+            <button
+                mat-flat-button
+                class="rounded-full py-8 bg-gradient-to-r from-primary-400 to-primary-800 hover:to-primary-400"
+                [color]="'primary'"
+            >
+                <mat-icon svgIcon="mining_icon"></mat-icon>
+                Start Minting
+            </button>
+
+            <button mat-stroked-button class="rounded-full" [color]="'primary'">
+                <mat-icon svgIcon="fuseblock_icon"></mat-icon>
+                Get more Fuseblocks
+            </button>
+        </div>
+    </div>
+</div>

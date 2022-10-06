@@ -1,0 +1,45 @@
+<div class="grid gap-20 pb-20 w-full">
+    <div class="grid gap-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <ng-container
+            *ngFor="let item of list"
+            [ngTemplateOutlet]="boxTemplate"
+            [ngTemplateOutletContext]="{item: item}">
+        </ng-container>
+    </div>
+
+    <div class="grid gap-10">
+        <h2 class="font-extrabold text-2xl md:text-5xl">Claimable Aura Rewards</h2>
+
+        <div class="grid gap-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <ng-container
+                *ngFor="let item of listClaim"
+                [ngTemplateOutlet]="boxTemplate"
+                [ngTemplateOutletContext]="{item: item}">
+            </ng-container>
+        </div>
+    </div>
+</div>
+
+<ng-template #boxTemplate let-item="item">
+    <fuse-card class="p-6 flex flex-col gap-2" [ngClass]="{'shadow-2xl hover:shadow-md transition-shadow': item.isHover}">
+        <mat-icon class="w-10 h-10 text-gray-700" svgIcon="{{item.icon}}"></mat-icon>
+        <p class="text-lg">{{item.title}}</p>
+        <h4 class="text-4xl font-extrabold">{{item.number}}</h4>
+        <p class="text-lg">{{item.subtitle}}</p>
+        <a
+            *ngIf="item.link_href"
+            href="{{item.link_href}}"
+            class="text-blue-500 hover:underline">
+            {{item.link_label}}
+        </a>
+        <button
+            *ngIf="item.button_link"
+            mat-flat-button
+            disabled
+            color="primary"
+            class="bg-gradient-to-r from-primary-400 to-primary-800 rounded-full hover:to-primary-400 mt-auto"
+            >
+            {{item.button_label}}
+        </button>
+    </fuse-card>
+</ng-template>

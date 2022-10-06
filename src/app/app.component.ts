@@ -1,0 +1,141 @@
+import { Component } from '@angular/core';
+import { MatIconRegistry } from "@angular/material/icon";
+import { DomSanitizer } from "@angular/platform-browser";
+
+@Component({
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss']
+})
+
+export class AppComponent {
+    constructor(
+        private matIconRegistry: MatIconRegistry,
+        private domSanitizer: DomSanitizer
+    ) {
+        this.matIconRegistry.addSvgIcon(
+            "android_icon",
+            this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/android-os.svg")
+        );
+        this.matIconRegistry.addSvgIcon(
+            "ios_icon",
+            this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/ios-logo.svg")
+        );
+        this.matIconRegistry.addSvgIcon(
+            "info_icon",
+            this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/info.svg")
+        );
+        this.matIconRegistry.addSvgIcon(
+            "download_icon",
+            this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/download.svg")
+        );
+        this.matIconRegistry.addSvgIcon(
+            "unity_icon",
+            this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/unity-logo.svg")
+        );
+        this.matIconRegistry.addSvgIcon(
+            "facebook_icon",
+            this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/facebook-f.svg")
+        );
+        this.matIconRegistry.addSvgIcon(
+            "google_icon",
+            this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/google.svg")
+        );
+        this.matIconRegistry.addSvgIcon(
+            "retention_icon",
+            this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/retention.svg")
+        );
+        this.matIconRegistry.addSvgIcon(
+            "engagement_icon",
+            this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/engagement.svg")
+        );
+        this.matIconRegistry.addSvgIcon(
+            "installs_icon",
+            this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/installs.svg")
+        );
+        this.matIconRegistry.addSvgIcon(
+            "aura_icon",
+            this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/aura.svg")
+        );
+        this.matIconRegistry.addSvgIcon(
+            "aura_color_icon",
+            this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/AuraIcon.svg")
+        );
+        this.matIconRegistry.addSvgIcon(
+            "balance_icon",
+            this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/balance.svg")
+        );
+        this.matIconRegistry.addSvgIcon(
+            "balance_staked_icon",
+            this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/balance_staked.svg")
+        );
+        this.matIconRegistry.addSvgIcon(
+            "balance_unvested_icon",
+            this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/balance_unvested.svg")
+        );
+        this.matIconRegistry.addSvgIcon(
+            "calendar_icon",
+            this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/calendar.svg")
+        );
+        this.matIconRegistry.addSvgIcon(
+            "calendar_percent_icon",
+            this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/calendar_percent.svg")
+        );
+        this.matIconRegistry.addSvgIcon(
+            "calendar_vest_icon",
+            this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/calendar_vest.svg")
+        );
+        this.matIconRegistry.addSvgIcon(
+            "cycle_supply_icon",
+            this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/cycle_supply.svg")
+        );
+        this.matIconRegistry.addSvgIcon(
+            "cycle_user_icon",
+            this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/cycle_user.svg")
+        );
+        this.matIconRegistry.addSvgIcon(
+            "fuseblock_icon",
+            this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/fuseblock.svg")
+        );
+        this.matIconRegistry.addSvgIcon(
+            "fuseblock_balance_icon",
+            this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/fuseblock_balance.svg")
+        );
+        this.matIconRegistry.addSvgIcon(
+            "fuseblock_balance_icon",
+            this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/fuseblock_balance.svg")
+        );
+        this.matIconRegistry.addSvgIcon(
+            "governance_icon",
+            this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/governance.svg")
+        );
+        this.matIconRegistry.addSvgIcon(
+            "install_icon",
+            this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/install.svg")
+        );
+        this.matIconRegistry.addSvgIcon(
+            "mining_icon",
+            this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/mining.svg")
+        );
+        this.matIconRegistry.addSvgIcon(
+            "price_icon",
+            this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/price.svg")
+        );
+        this.matIconRegistry.addSvgIcon(
+            "refer_icon",
+            this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/refer.svg")
+        );
+        this.matIconRegistry.addSvgIcon(
+            "reward_icon",
+            this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/reward.svg")
+        );
+        this.matIconRegistry.addSvgIcon(
+            "staking_icon",
+            this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/staking.svg")
+        );
+        this.matIconRegistry.addSvgIcon(
+            "user_group_icon",
+            this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/user_group.svg")
+        );
+    }
+}

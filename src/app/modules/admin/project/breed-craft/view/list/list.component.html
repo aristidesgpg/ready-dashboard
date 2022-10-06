@@ -1,0 +1,39 @@
+<ready-loader *ngIf="!isLoaded"></ready-loader>
+
+<!-- Loaded -->
+<section *ngIf="isLoaded" class="w-full max-w-7xl py-10 px-5 mx-auto flex flex-col gap-10">
+    <!-- Header -->
+    <div class="flex flex-col md:justify-between md:flex-row md:items-center">
+        <div class="text-2xl text-left sm:text-3xl lg:text-4xl font-extrabold text-white">
+            <h1>Breed & Craft List</h1>
+            <h5 class="text-gray-400 text-lg font-normal">Manage your breed and craft list!</h5>
+        </div>
+
+        <div class="flex flex-col items-end text-white">
+            <button mat-raised-button color="primary" class="mt-4" (click)="createRecipe()">Create new recipe</button>
+        </div>
+    </div>
+
+    <!-- No Items found -->
+    <div class="text-white max-w-160 mx-auto text-center" *ngIf="!list.length">
+        <h2 class="font-bold text-3xl">No recipes found on this project</h2>
+        <h4 class="text-lg text-gray-300 font-medium">You have no recipes created yet, start right now by creating your first recipe.</h4>
+
+        <button mat-raised-button color="primary" class="mt-4" (click)="createRecipe()">Create first recipe</button>
+    </div>
+
+    <!-- List -->
+    <div class="grid grid-cols-4 gap-5" *ngIf="list.length">
+        <div
+            *ngFor="let item of list"
+            class="h-40 rounded-md border border-solid border-gray-400 overflow-hidden cursor-pointer relative flex items-end"
+            [routerLink]="item.id"
+        >
+            <img src="assets/images/ui/placeholder-recipe.png" class="w-full h-full absolute inset-0 object-cover z-0" />
+
+            <div class="list_item w-full h-1/2 p-2 relative z-10 flex items-end">
+                <h4 class="text-white text-xl font-bold">{{item.name}}</h4>
+            </div>
+        </div>
+    </div>
+</section>

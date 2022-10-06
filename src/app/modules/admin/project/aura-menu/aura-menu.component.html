@@ -1,0 +1,31 @@
+<div class="flex flex-col flex-auto w-full p-6 sm:p-10">
+    <!-- Page Header -->
+    <div class="flex flex-col gap-4 md:justify-between md:flex-row md:items-center w-full">
+        <div class="text-left text-2xl font-extrabold sm:text-5xl">
+            <h1 class="text-white">{{title}}</h1>
+            <h5 class="text-gray-400 text-lg font-normal">{{subtitle}}</h5>
+        </div>
+        <button mat-stroked-button class="rounded-full" [color]="'primary'">
+            <mat-icon class="mr-2">check_circle</mat-icon>
+            Apply for an Aura Grant
+        </button>
+    </div>
+
+    <!-- Page Menu -->
+    <nav class="mt-10" mat-tab-nav-bar [tabPanel]="tabPanel">
+        <a mat-tab-link
+            class="text-gray-300"
+            *ngFor="let link of auraMenu"
+            [routerLink]="link.path"
+            routerLinkActive #rla="routerLinkActive"
+            [active]="rla.isActive">
+            <mat-icon class="mr-2 text-gray-300" svgIcon="{{link.icon}}"></mat-icon>
+            {{link.name}}
+        </a>
+    </nav>
+
+    <!-- Page Content -->
+    <mat-tab-nav-panel #tabPanel class="mt-5">
+        <router-outlet></router-outlet>
+    </mat-tab-nav-panel>
+</div>

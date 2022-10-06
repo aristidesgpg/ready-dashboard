@@ -1,0 +1,260 @@
+
+<div class="flex flex-col flex-auto min-w-0">
+
+    <!--
+    projects:
+    <ul>
+        <li *ngFor="let project of projects | async">
+            {{project | json}}
+        </li>
+    </ul>
+
+    <br>------------------------------<br>
+
+    {{authService.userData | json}}
+
+-->
+
+    <fuse-drawer
+            [fixed]="true"
+            [mode]="'over'"
+            [name]="'rightDrawer'"
+            [opened]="!true"
+            [position]="'right'"
+            [transparentOverlay]="false" class="example-container">
+        <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
+            <div class="flex flex-row items-start justify-left">
+                <!-- Close button -->
+                <button
+                        mat-icon-button
+                        (click)="toggleDrawerOpen('rightDrawer');">
+                    <mat-icon [svgIcon]="'heroicons_outline:x'"></mat-icon>
+                </button>
+
+                <div class="mt-16 mb-8 text-3xl font-bold">Create a project</div>
+            </div>
+            <h1 style="font-size: 1.1em; padding: 20px 0px;font-weight: bold;">Let's start with a name for your project</h1>
+            <div class="flex flex-col">
+                <form
+                        class="bg-card overflow-hidden"
+                        [formGroup]="projectCreationForm">
+                    <mat-form-field class="flex-auto" style="width:500px;">
+                        <input
+                                [formControlName]="'project_name'"
+                                matInput
+                                [placeholder]="'Enter your project name'"
+                                required>
+                        <mat-icon
+                                class="icon-size-5"
+                                matPrefix
+                                [svgIcon]="'heroicons_solid:document-add'"></mat-icon>
+                    </mat-form-field>
+                </form>
+                <div *ngIf="projectCreationForm.controls['project_name'].invalid && (projectCreationForm.controls['project_name'].dirty || projectCreationForm.controls['project_name'].touched)"
+                     class="flex flex-col alert alert-danger leading-5 space-y-3 py-2.5">
+
+                    <div class="text-warn"  *ngIf="projectCreationForm.controls['project_name'].errors?.['required']">
+                        The package name is required.
+                    </div>
+                    <div class="text-warn"  *ngIf="projectCreationForm.controls['project_name'].errors?.['minlength']">
+                        The package name must be at least 3 characters long.
+                    </div>
+                    <div class="text-warn"  *ngIf="projectCreationForm.controls['project_name'].errors?.['maxlength']">
+                        The package name must be not more than 30 characters long.
+                    </div>
+                    <div class="text-warn" *ngIf="projectCreationForm.controls['project_name'].errors?.['pattern']">
+                        It is not a valid project name authorized character are:<br>
+                        <b>lowercase and uppercase letters, numbers, hyphen and space</b>.
+                    </div>
+                </div>
+                <div *ngIf="projectCreationForm.controls['project_name'].valid &&
+                (projectCreationForm.controls['project_name'].dirty || projectCreationForm.controls['project_name'].touched)"
+                    class="flex flex-col alert alert-danger leading-5 space-y-3 py-2.5">
+                    <p>Project Id: <b>{{projectId}}</b></p>
+                </div>
+            </div>
+            <button
+                class="px-8"
+                type="button"
+                mat-flat-button
+                [color]="'primary'"
+                [disabled]="projectCreationForm.disabled"
+                (click)="addProject()"
+            >
+                <span *ngIf="!projectCreationForm.disabled">Create project</span>
+                <mat-progress-spinner
+                    *ngIf="projectCreationForm.disabled"
+                    [diameter]="24"
+                    [mode]="'indeterminate'">
+                </mat-progress-spinner>
+            </button>
+            <fuse-alert
+                    [appearance]="'soft'"
+                    [dismissible]="true"
+                    [dismissed]="true"
+                    [name]="'alertBox3'"
+                    [type]="'error'">
+                Missing or insufficient permissions.
+            </fuse-alert>
+            <fuse-alert
+                    [appearance]="'soft'"
+                    [dismissible]="true"
+                    [dismissed]="true"
+                    [name]="'projectCreated'"
+                    [type]="'success'">
+                Project created.
+            </fuse-alert>
+        </div>
+    </fuse-drawer>
+    <!-- Header -->
+    <div class="bg-card">
+        <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
+        </div>
+        <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
+            <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-8 sm:my-12">
+                <!-- Avatar and name -->
+                <div class="flex flex-auto items-center min-w-0">
+                    <div class="flex-0 w-16 h-16 rounded-full overflow-hidden">
+                        <img
+                                class="w-full h-full object-cover"
+                                src="{{authService.userData.photoURL}}">
+                    </div>
+                    <div class="flex flex-col min-w-0 ml-4">
+                        <ng-container>
+                            <div
+                                class="text-2xl md:text-5xl font-semibold tracking-tight leading-7 md:leading-snug truncate"
+                            >
+                                Welcome
+                                {{ authService.userData.displayName ? ', ' + authService.userData.displayName : ''}}!
+                            </div>
+                        </ng-container>
+                        <div class="flex items-center">
+                            <mat-icon
+                                    class="icon-size-5"
+                                    [svgIcon]="'heroicons_solid:bell'"></mat-icon>
+                            <div class="ml-1.5 leading-6 truncate text-secondary">You have no new messages</div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Actions -->
+                <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
+                    <button
+                            class="fuse-mat-button-rounded bg-accent-700"
+                            mat-flat-button
+                            color="accent"
+                            [routerLink]="['/sign-out']">
+                        <mat-icon
+                                class="icon-size-5"
+                                [svgIcon]="'mat_solid:logout'"></mat-icon>
+                        <span class="ml-2">Logout</span>
+                    </button>
+                    <!--
+                    <button
+                            class="fuse-mat-button-rounded bg-accent-700"
+                            mat-flat-button
+                            color="accent"
+                            >
+                        <mat-icon
+                                class="icon-size-5"
+                                [svgIcon]="'heroicons_solid:mail'"></mat-icon>
+                        <span class="ml-2">Messages</span>
+                    </button>
+                    <button
+                            class="fuse-mat-button-rounded"
+                            mat-flat-button
+                            color="primary"
+                            >
+                        <mat-icon
+                                class="icon-size-5"
+                                [svgIcon]="'heroicons_solid:cog'"></mat-icon>
+                        <span class="ml-2">Settings</span>
+                    </button>
+                    -->
+                </div>
+            </div>
+
+
+            <!-- Project selector -->
+            <!--
+            <div
+                    class="relative flex self-start pt-2 pb-1 pl-5 pr-4 cursor-pointer overflow-hidden rounded-t-xl border border-b-0 bg-default"
+                    matRipple
+                    >
+                <div class="flex items-center">
+                    <div class="overflow-hidden">
+                        <div class="font-medium leading-6 truncate">test</div>
+                    </div>
+                    <div class="flex items-center justify-center pl-2">
+                        <mat-icon
+                                class="icon-size-5"
+                                [svgIcon]="'heroicons_solid:chevron-down'"></mat-icon>
+                    </div>
+                </div>
+
+
+            </div>
+            -->
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="flex flex-col flex-auto items-center p-6 sm:p-10">
+
+        <!-- Title -->
+        <div class="mt-4 md:mt-24 text-3xl md:text-6xl font-extrabold tracking-tight leading-7 sm:leading-10 text-white">
+            All Projects
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8 md:mt-16">
+            <ng-container *ngFor="let project of projects">
+                <a
+                        class="flex flex-col items-start w-56 p-6 rounded-lg shadow bg-card rounded-lg hover:shadow-xl transition-shadow duration-150 ease-in-out"
+                        (click)="navigateToProject(project.id)" [routerLink]="['/project',project.id,'overview']">
+                    <div class="flex items-center justify-center p-4 rounded-full bg-primary-50 text-primary-700 dark:bg-primary dark:text-on-primary">
+                        <mat-icon
+                                class="text-current"
+                                svgIcon="unity_icon"></mat-icon>
+                    </div>
+                    <!-- Title -->
+                    <div class="mt-5 text-lg font-medium leading-5">{{project.data().name}}</div>
+                    <!-- Description -->
+                    <div class="mt-0.5 line-clamp-2 text-secondary">{{project.data().projectId}}</div>
+                    <!-- Members -->
+                    <ng-container *ngIf="project.data().members?.length">
+                        <div class="w-12 h-1 mt-6 border-t-2"></div>
+                        <div class="flex items-center mt-6 -space-x-1.5">
+                            <ng-container *ngFor="let member of project.data().members.slice(0, 5); trackBy: trackByFn">
+                                <img
+                                        class="flex-0 w-8 h-8 rounded-full ring ring-offset-1 ring-bg-card ring-offset-transparent object-cover"
+                                        [src]="member.avatar"
+                                        alt="Member avatar">
+                            </ng-container>
+                            <ng-container *ngIf="project.members.length > 5">
+                                <div class="flex flex-0 items-center justify-center w-8 h-8 rounded-full ring ring-offset-1 ring-bg-card ring-offset-transparent bg-gray-200 text-gray-500">
+                                    <div class="text-md font-semibold">
+                                        +{{ project.data().members.slice(5).length }}
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </ng-container>
+                    <!-- Last activity -->
+                    <div class="flex items-center mt-4 text-md font-md">
+                        <div class="text-secondary">Created at:</div>
+                        <div class="ml-1">{{formatDateAsRelative(project.data().created.toDate())}}</div>
+
+                    </div>
+                </a>
+            </ng-container>
+            <!-- New board -->
+            <div (click)="toggleDrawerOpen('rightDrawer');" class="flex flex-col items-center justify-center w-56 rounded-lg cursor-pointer border-2 border-gray-300 border-dashed hover:bg-hover transition-colors duration-150 ease-in-out">
+                <mat-icon
+                        class="icon-size-12 text-hint"
+                        [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+            </div>
+        </div>
+    </div>
+</div>
+
+

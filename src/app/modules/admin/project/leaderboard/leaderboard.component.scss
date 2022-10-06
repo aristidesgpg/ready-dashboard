@@ -1,0 +1,30 @@
+.leaderboard_icons {
+    height: max-content;
+
+    div {
+        cursor: pointer;
+    }
+
+    &.li_mobile img:not(.active) {
+        filter: grayscale(1);
+        opacity: .5;
+    }
+
+    img {
+        height: 100%;
+        margin: 0 auto;
+        max-height: 180px;
+        width: auto;
+        transition:  opacity ease-in-out 300ms, filter ease-in-out 300ms;
+    }
+}
+
+.leaderboard_head {
+    background: linear-gradient(0deg, #3730a3 0%, #6366f1 100%);
+}
+
+.leaderboard_item {
+    .bg-slate-300 {
+        background-color: rgb(226 232 240);
+    }
+}

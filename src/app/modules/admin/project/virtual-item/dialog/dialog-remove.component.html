@@ -1,0 +1,19 @@
+<h4 class="text-xl mb-5">Remove item</h4>
+<p>You are trying to remove the item <b>"{{data.name}}"</b>, this action is unique and can't be undone.</p>
+<br />
+<p><b>Are you sure you want to fully remove the item "{{data.name}}"?</b></p>
+
+<div class="flex flex-nowrap justify-end gap-5 mt-10">
+    <button mat-button mat-dialog-close class="shrink-0" [disabled]="onProcess">Go back</button>
+    <button
+        mat-flat-button
+        [color]="'warn'"
+        [disabled]="onProcess"
+        (click)="confirm()">
+        <span *ngIf="!onProcess">Remove item</span>
+        <mat-progress-spinner
+            *ngIf="onProcess"
+            [diameter]="24"
+            [mode]="'indeterminate'"></mat-progress-spinner>
+    </button>
+</div>

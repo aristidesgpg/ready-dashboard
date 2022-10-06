@@ -1,0 +1,55 @@
+<div class="w-full p-6 sm:p-10">
+    <!-- Fuseblock list -->
+    <div class="w-full pb-10 mb-10 border-b border-slate-300">
+        <!-- Title -->
+        <div class="w-full flex flex-col mb-5 items-start">
+            <h1 class="text-left text-white text-2xl font-bold md:text-3xl">
+                Select a Fuseblock to start minting
+            </h1>
+            <h5 class="text-left text-gray-400 text-lg font-normal">
+                Start a new mint process by selecting a Fuseblock
+            </h5>
+            <span class="text-sm bg-blue-200 text-blue-800 border border-blue-800 h12 px-2 flex items-center rounded-md">
+                Total $Karma {{ totalKarma || 'Loading...' }}
+            </span>
+        </div>
+
+        <!-- List -->
+        <div class="gap-5 flex flex-wrap md:gap-10">
+            <ready-loader *ngIf="!isLoadedFuseblock"></ready-loader>
+
+            <ng-container *ngIf="isLoadedFuseblock">
+                <mint-item
+                    class="w-40 h-40"
+                    *ngFor="let item of listFuseblock"
+                    [item]="item"
+                    [quantity]="true"
+                    [click]="true"
+                    (click)="selectFuseblock(item)"
+                ></mint-item>
+            </ng-container>
+        </div>
+    </div>
+
+    <!-- Virtual Items Minted -->
+    <div class="w-full pb-10 mb-10 border-b border-slate-300">
+        <!-- Title -->
+        <div class="w-full flex flex-col mb-5">
+            <h1 class="text-left text-white text-2xl font-bold md:text-3xl">
+                Virtual Items Minted
+            </h1>
+            <h5 class="text-left text-gray-400 text-lg font-normal">
+                Here is the list of minted virtual items you have
+            </h5>
+        </div>
+
+        <!-- List -->
+        <div class="gap-5 flex flex-wrap md:gap-10">
+            <ready-loader *ngIf="!isLoadedMinted"></ready-loader>
+
+            <ng-container *ngIf="isLoadedMinted">
+                <mint-item class="w-40 h-40" *ngFor="let item of listMinted" [item]="item"></mint-item>
+            </ng-container>
+        </div>
+    </div>
+</div>
